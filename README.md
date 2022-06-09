@@ -33,7 +33,7 @@ Limited functionality right now, but simply run the executable and pass it the A
 Some code bits from: <br>
 https://github.com/byt3bl33d3r/OffensiveNim </br>
 https://www.ired.team/ </br>
-https://github.com/bigb0sss/Bankai <--Initial inspiratioon <---
+https://github.com/bigb0sss/Bankai <--Initial inspiration
 
 # Disclaimer
 Only use this for purposes involving systems that you have been given permission to access and alter. I am not responsible if you do illegal stuff. 
