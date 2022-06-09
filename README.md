@@ -17,11 +17,11 @@ To compile: </br>
 Limited functionality right now, but simply run the executable and pass it the API method and your raw shellcode file: </br> </br>
 ```.\nimalathatep.exe <apiMethod> <binFile>``` </br>
 </br>
-[<img alt="alt_text" width="1000" src="payload_creation.PNG" />]
+<img alt="alt_text" width="1000" src="payload_creation.PNG" />
 </br>
 
 # Defender Check
-[<img alt="alt_text" width="1000" src="full-usage.gif" />]
+<img alt="alt_text" width="1000" src="full-usage.gif" />
 
 
 # To Do
