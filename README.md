@@ -23,6 +23,8 @@ Limited functionality right now, but simply run the executable and pass it the A
 # Defender Check
 <img alt="alt_text" width="1000" src="full-usage.gif" />
 
+# Known Issues
+While compiling, Nimalathatep searches for a "REPLACE_ME" string. If you have to compile a payload twice, ensure to open up the template and replace the filled in shellcode (in shellcode_base64_encrypted) to the string. I'll fix this soon.
 
 # To Do
 -Add more API methods </br>
