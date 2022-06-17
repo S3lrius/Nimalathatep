@@ -7,6 +7,10 @@ AV/EDR avoidance is performed through AES encryption followed by Base64, with th
 # Compilation
 Ensure you have NIM downloaded from here: https://nim-lang.org/install.html </br>
 </br>
+
+Install the winim and nim crypto prior to compiling with the following commands:</br>
+```nimble install winim```</br>
+```nimble install nimcrypto```</br></br>
 To compile: </br>
 ```nim -d:release c .\nimalathatep.nim``` </br>
 </br>
