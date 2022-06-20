@@ -14,7 +14,7 @@ Install the winim and nim crypto prior to compiling with the following commands:
 To compile: </br>
 ```nim -d:release c .\nimalathatep.nim``` </br>
 </br>
-[<img alt="alt_text" width="1000" src="compilation.PNG" />]
+<img alt="alt_text" width="1000" src="compilation.PNG" />
 </br>
 
 # Usage
