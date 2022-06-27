@@ -20,7 +20,7 @@ To compile: </br>
 
 # Usage
 Run the executable and give it the desired API method, shellcode file, and output file type: </br> </br>
-```.\nimalathatep.exe <apiMethod> <binFile>``` </br>
+```.\nimalathatep.exe <apiMethod> <binFile> <outfiletype>``` </br>
 </br>
 <img alt="alt_text" width="1000" src="payload_creation.PNG" />
 </br>
