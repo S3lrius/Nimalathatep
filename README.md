@@ -2,15 +2,16 @@
 Nimalathatep is a Nim shellcode payload generation project that aims to get a stealthy binary inro your hands quickly. All methods use well-known API-call sequences.
 
 # Evasion
-AV/EDR avoidance is performed through AES encryption followed by Base64, with the payload itself only being decrypted at runtime. The IV is currently static, but I aim to change this in the future. 
+AV/EDR avoidance is performed through AES encryption followed by Base64, with the payload itself only being decrypted at runtime. The IV is currently static, but I aim to change this in the future. Compiling to a control panel item is your stealthiest approach for now. 
 
 # Compilation
 Ensure you have NIM downloaded from here: https://nim-lang.org/install.html </br>
 </br>
 
-Install the winim and nim crypto prior to compiling with the following commands:</br>
+Install the winim, ptr_math, and nim crypto prior to compiling with the following commands:</br>
 ```nimble install winim```</br>
-```nimble install nimcrypto```</br></br>
+```nimble install nimcrypto```</br>
+```nimble install ptr_math``` </br></br>
 To compile: </br>
 ```nim -d:release c .\nimalathatep.nim``` </br>
 </br>
@@ -18,7 +19,7 @@ To compile: </br>
 </br>
 
 # Usage
-Limited functionality right now, but simply run the executable and pass it the API method and your raw shellcode file: </br> </br>
+Run the executable and give it the desired API method, shellcode file, and output file type: </br> </br>
 ```.\nimalathatep.exe <apiMethod> <binFile>``` </br>
 </br>
 <img alt="alt_text" width="1000" src="payload_creation.PNG" />
@@ -27,13 +28,12 @@ Limited functionality right now, but simply run the executable and pass it the A
 # Defender Check
 <img alt="alt_text" width="1000" src="full-usage.gif" />
 
-# Known Issues
-While compiling, Nimalathatep searches for a "REPLACE_ME" string. If you have to compile a payload twice, ensure to open up the template and replace the filled in shellcode (in shellcode_base64_encrypted) to the string. I'll fix this soon.
+
 
 # To Do
--Add more API methods </br>
+-Generation option to directly place the file into a PDF as an attachment </br>
 -Custom unhook stuff </br>
--Cooler things like Macros, HTAs, etc </br>
+-Add option to pack payload into iso or 7zip </br>
 
 # Credits
 Some code bits from: <br>
