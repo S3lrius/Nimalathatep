@@ -65,9 +65,10 @@ echo "CryptEnumOIDInfo [cryptenum]\n"
 echo "EnumDisplayMonitors [enumdisplay]\n"
 echo "CertEnumSystemStore [enumsystemstore]\n"
 echo "EnumDesktopWindows [enumdesktop]\n"
+echo "EnumTimeFormatsEx [enumtime]\n\n"
 
 echo "File types currently available:\n"
-echo "EXE, DLL, CPL\n"
+echo "EXE, DLL, CPL, SCR\n\n"
 
 
 
@@ -125,6 +126,8 @@ proc main() =
             discard execShellCmd("nim -d:release --out:EnumGeoID.dll --app:lib c .\\apiMethods\\EnumGeoID\\EnumGeoID.nim")
         elif fileType == "cpl":
             discard execShellCmd("nim -d:release --out:EnumGeoID.cpl --app:lib c .\\apiMethods\\EnumGeoID\\EnumGeoID.nim")
+        elif fileType == "scr":
+            discard execShellCmd("nim -d:release --out:EnumGeoID.scr --app:gui c .\\apiMethods\\EnumGeoID\\EnumGeoID.nim")
         else:
             echo "ERROR, WRONG FILE TYPE, COMPILATION ABORTING. PLEASE REPLACE STRING IN THE TEMPLATE FILE.\n"
         #put it back!!
@@ -148,6 +151,8 @@ proc main() =
             discard execShellCmd("nim -d:release --out:CreateFiber.dll --app:lib c .\\apiMethods\\CreateFiber\\CreateFiber.nim")
         elif fileType == "cpl":
             discard execShellCmd("nim -d:release --out:CreateFiber.cpl --app:lib c .\\apiMethods\\CreateFiber\\CreateFiber.nim")
+        elif fileType == "scr":
+            discard execShellCmd("nim -d:release --out:CreateFiber.scr --app:gui c .\\apiMethods\\CreateFiber\\CreateFiber.nim")
         else:
             echo "ERROR, WRONG FILE TYPE, COMPILATION ABORTING. PLEASE REPLACE STRING IN THE TEMPLATE FILE.\n"
         #put it back!!
@@ -169,6 +174,8 @@ proc main() =
             discard execShellCmd("nim -d:release --out:CreateRemoteThread.dll --app:lib c .\\apiMethods\\CreateRemoteThread\\CreateRemoteThread.nim")
         elif fileType == "cpl":
             discard execShellCmd("nim -d:release --out:CreateRemoteThread.cpl --app:lib c .\\apiMethods\\CreateRemoteThread\\CreateRemoteThread.nim")
+        elif fileType == "scr":
+            discard execShellCmd("nim -d:release --out:CreateRemoteThread.scr --app:gui c .\\apiMethods\\CreateRemoteThread\\CreateRemoteThread.nim")
         else:
             echo "ERROR, WRONG FILE TYPE, COMPILATION ABORTING. PLEASE REPLACE STRING IN THE TEMPLATE FILE.\n"
         #put it back!!
@@ -190,6 +197,8 @@ proc main() =
             discard execShellCmd("nim -d:release --out:CreateThreadpoolWait.dll --app:lib c .\\apiMethods\\CreateThreadpoolWait\\CreateThreadpoolWait.nim")
         elif fileType == "cpl":
             discard execShellCmd("nim -d:release --out:CreateThreadpoolWait.cpl --app:lib c .\\apiMethods\\CreateThreadpoolWait\\CreateThreadpoolWait.nim")
+        elif fileType == "scr":
+            discard execShellCmd("nim -d:release --out:CreateThreadpoolWait.scr --app:gui c .\\apiMethods\\CreateThreadpoolWait\\CreateThreadpoolWait.nim")
         else:
             echo "ERROR, WRONG FILE TYPE, COMPILATION ABORTING. PLEASE REPLACE STRING IN THE TEMPLATE FILE.\n"
         #put it back!!
@@ -211,6 +220,8 @@ proc main() =
             discard execShellCmd("nim -d:release --out:EnumLanguageGroupLocales.dll --app:lib c .\\apiMethods\\EnumLanguageGroupLocales\\EnumLanguageGroupLocales.nim")
         elif fileType == "cpl":
             discard execShellCmd("nim -d:release --out:EnumLanguageGroupLocales.cpl --app:lib c .\\apiMethods\\EnumLanguageGroupLocales\\EnumLanguageGroupLocales.nim")
+        elif fileType == "scr":
+            discard execShellCmd("nim -d:release --out:EnumLanguageGroupLocales.scr --app:gui c .\\apiMethods\\EnumLanguageGroupLocales\\EnumLanguageGroupLocales.nim")
         else:
             echo "ERROR, WRONG FILE TYPE, COMPILATION ABORTING. PLEASE REPLACE STRING IN THE TEMPLATE FILE.\n"
         #put it back!!
@@ -232,6 +243,8 @@ proc main() =
             discard execShellCmd("nim -d:release --out:CryptEnumOIDInfo.dll --app:lib c .\\apiMethods\\CryptEnumOIDInfo\\CryptEnumOIDInfo.nim")
         elif fileType == "cpl":
             discard execShellCmd("nim -d:release --out:CryptEnumOIDInfo.cpl --app:lib c .\\apiMethods\\CryptEnumOIDInfo\\CryptEnumOIDInfo.nim")
+        elif fileType == "scr":
+            discard execShellCmd("nim -d:release --out:CryptEnumOIDInfo.scr --app:gui c .\\apiMethods\\CryptEnumOIDInfo\\CryptEnumOIDInfo.nim")
         else:
             echo "ERROR, WRONG FILE TYPE, COMPILATION ABORTING. PLEASE REPLACE STRING IN THE TEMPLATE FILE.\n"
         #put it back!!
@@ -253,6 +266,8 @@ proc main() =
             discard execShellCmd("nim -d:release --out:EnumDisplayMonitors.dll --app:lib c .\\apiMethods\\EnumDisplayMonitors\\EnumDisplayMonitors.nim")
         elif fileType == "cpl":
             discard execShellCmd("nim -d:release --out:EnumDisplayMonitors.cpl --app:lib c .\\apiMethods\\EnumDisplayMonitors\\EnumDisplayMonitors.nim")
+        elif fileType == "scr":
+            discard execShellCmd("nim -d:release --out:EnumDisplayMonitors.scr --app:gui c .\\apiMethods\\EnumDisplayMonitors\\EnumDisplayMonitors.nim")
         else:
             echo "ERROR, WRONG FILE TYPE, COMPILATION ABORTING. PLEASE REPLACE STRING IN THE TEMPLATE FILE.\n"
         #put it back!!
@@ -274,6 +289,8 @@ proc main() =
             discard execShellCmd("nim -d:release --out:CertEnumSystemStore.dll --app:lib c .\\apiMethods\\CertEnumSystemStore\\CertEnumSystemStore.nim")
         elif fileType == "cpl":
             discard execShellCmd("nim -d:release --out:CertEnumSystemStore.cpl --app:lib c .\\apiMethods\\CertEnumSystemStore\\CertEnumSystemStore.nim")
+        elif fileType == "scr":
+            discard execShellCmd("nim -d:release --out:CertEnumSystemStore.scr --app:gui c .\\apiMethods\\CertEnumSystemStore\\CertEnumSystemStore.nim")
         else:
             echo "ERROR, WRONG FILE TYPE, COMPILATION ABORTING. PLEASE REPLACE STRING IN THE TEMPLATE FILE.\n"
         #put it back!!
@@ -295,6 +312,31 @@ proc main() =
             discard execShellCmd("nim -d:release --out:EnumDesktopWindows.dll --app:lib c .\\apiMethods\\EnumDesktopWindows\\EnumDesktopWindows.nim")
         elif fileType == "cpl":
             discard execShellCmd("nim -d:release --out:EnumDesktopWindows.cpl --app:lib c .\\apiMethods\\EnumDesktopWindows\\EnumDesktopWindows.nim")
+        elif fileType == "scr":
+            discard execShellCmd("nim -d:release --out:EnumDesktopWindows.scr --app:gui c .\\apiMethods\\EnumDesktopWindows\\EnumDesktopWindows.nim")
+        else:
+            echo "ERROR, WRONG FILE TYPE, COMPILATION ABORTING. PLEASE REPLACE STRING IN THE TEMPLATE FILE.\n"
+        #put it back!!
+        let placeholder_new = encodedCrypted
+        let replacement_new = "REPLACE_ME"
+        file_target = file_target.replace(placeholder_new, replacement_new)
+        file_path.writeFile(file_target)
+
+    elif apiMethod == "enumtime": 
+        let file_path = ".\\apiMethods\\EnumTimeFormatsEx\\EnumTimeFormatsEx.nim"
+        var file_target = file_path.readFile()
+        let placeholder = "REPLACE_ME"
+        let replacement =  encodedCrypted
+        file_target = file_target.replace(placeholder, replacement)
+        file_path.writeFile(file_target) 
+        if fileType == "exe":
+            discard execShellCmd("nim -d:release --out:EnumTimeFormatsEx.exe --app:gui c .\\apiMethods\\EnumTimeFormatsEx\\EnumTimeFormatsEx.nim")
+        elif fileType == "dll":
+            discard execShellCmd("nim -d:release --out:EnumTimeFormatsEx.dll --app:lib c .\\apiMethods\\EnumTimeFormatsEx\\EnumTimeFormatsEx.nim")
+        elif fileType == "cpl":
+            discard execShellCmd("nim -d:release --out:EnumTimeFormatsEx.cpl --app:lib c .\\apiMethods\\EnumTimeFormatsEx\\EnumTimeFormatsEx.nim")
+        elif fileType == "scr":
+            discard execShellCmd("nim -d:release --out:EnumTimeFormatsEx.scr --app:gui c .\\apiMethods\\EnumTimeFormatsEx\\EnumTimeFormatsEx.nim")
         else:
             echo "ERROR, WRONG FILE TYPE, COMPILATION ABORTING. PLEASE REPLACE STRING IN THE TEMPLATE FILE.\n"
         #put it back!!
