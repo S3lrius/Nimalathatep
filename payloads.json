@@ -1,0 +1,202 @@
+{"methods":{
+    "enumgeoid":{
+        "standard":{
+            "exe": "nim -d:release --out:EnumGeoID.exe --app:gui c .\\apiMethods\\EnumGeoID\\EnumGeoID.nim",
+            "dll": "nim -d:release --out:EnumGeoID.dll --app:lib c .\\apiMethods\\EnumGeoID\\EnumGeoID.nim",
+            "cpl": "nim -d:release --out:EnumGeoID.cpl --app:lib c .\\apiMethods\\EnumGeoID\\EnumGeoID.nim",
+            "scr": "nim -d:release --out:EnumGeoID.scr --app:gui c .\\apiMethods\\EnumGeoID\\EnumGeoID.nim"
+        },
+        "xll":{
+            "payload": "nim c -d=mingw --app=lib --nomain --cpu=amd64 --out:EnumGeoIDXLL.dll .\\apiMethods\\EnumGeoID\\EnumGeoIDXLL.nim",
+            "cleanup": "move EnumGeoIDXLL.dll EnumGeoID.xll"
+        },
+        "filepaths":{
+            "xll": ".\\apiMethods\\EnumGeoID\\EnumGeoIDXLL.nim",
+            "standard": ".\\apiMethods\\EnumGeoID\\EnumGeoID.nim"
+        }
+    },
+    "createfiber":{
+        "standard":{
+            "exe": "nim -d:release --out:CreateFiber.exe --app:gui c .\\apiMethods\\CreateFiber\\CreateFiber.nim",
+            "dll": "nim -d:release --out:CreateFiber.dll --app:lib c .\\apiMethods\\CreateFiber\\CreateFiber.nim",
+            "cpl": "nim -d:release --out:CreateFiber.cpl --app:lib c .\\apiMethods\\CreateFiber\\CreateFiber.nim",
+            "scr": "nim -d:release --out:CreateFiber.scr --app:gui c .\\apiMethods\\CreateFiber\\CreateFiber.nim"
+        },
+        "xll":{
+            "payload": "nim c -d=mingw --app=lib --nomain --cpu=amd64 --out:CreateFiberXLL.dll .\\apiMethods\\CreateFiber\\CreateFiberXLL.nim",
+            "cleanup": "move EnumGeoIDXLL.dll EnumGeoID.xll"
+        },
+        "filepaths":{
+            "xll":".\\apiMethods\\CreateFiber\\CreateFiberXLL.nim",
+            "standard":".\\apiMethods\\CreateFiber\\CreateFiber.nim"
+        }
+
+    },
+    "createremotethread":{
+        "standard":{
+            "exe":"nim -d:release --out:CreateRemoteThread.exe --app:gui c .\\apiMethods\\CreateRemoteThread\\CreateRemoteThread.nim",
+            "dll":"nim -d:release --out:CreateRemoteThread.dll --app:lib c .\\apiMethods\\CreateRemoteThread\\CreateRemoteThread.nim",
+            "cpl":"nim -d:release --out:CreateRemoteThread.cpl --app:lib c .\\apiMethods\\CreateRemoteThread\\CreateRemoteThread.nim",
+            "scr":"nim -d:release --out:CreateRemoteThread.scr --app:gui c .\\apiMethods\\CreateRemoteThread\\CreateRemoteThread.nim"
+        },
+        "xll":{
+            "payload":"nim c -d=mingw --app=lib --nomain --cpu=amd64 --out:CreateRemoteThreadXLL.dll .\\apiMethods\\CreateRemoteThread\\CreateRemoteThreadXLL.nim",
+            "cleanup":"move CreateRemoteThreadXLL.dll CreateRemoteThread.xll"
+        },
+        "filepaths":{
+            "xll":".\\apiMethods\\CreateRemoteThread\\CreateRemoteThreadXLL.nim",
+            "standard":".\\apiMethods\\CreateRemoteThread\\CreateRemoteThread.nim"
+        }
+
+    },
+    "createthreadpoolwait":{
+        "standard":{
+            "exe":"nim -d:release --out:CreateThreadpoolWait.exe --app:gui c .\\apiMethods\\CreateThreadpoolWait\\CreateThreadpoolWait.nim",
+            "dll":"",
+            "cpl":"",
+            "scr":"nim -d:release --out:CreateThreadpoolWait.scr --app:gui c .\\apiMethods\\CreateThreadpoolWait\\CreateThreadpoolWait.nim"
+        },
+        "xll":{
+            "payload":"nim c -d=mingw --app=lib --nomain --cpu=amd64 --out:CreateThreadpoolWaitXLL.dll .\\apiMethods\\CreateThreadpoolWait\\CreateThreadpoolWaitXLL.nim",
+            "cleanup":"move CreateRemoteThreadXLL.dll CreateRemoteThread.xll"
+        },
+        "filepaths":{
+            "xll":".\\apiMethods\\CreateThreadpoolWait\\CreateThreadpoolWaitXLL.nim",
+            "standard":".\\apiMethods\\CreateThreadpoolWait\\CreateThreadpoolWait.nim"
+        }
+
+    },
+    "enumlanguage":{
+        "standard":{
+            "exe":"nim -d:release --out:EnumLanguageGroupLocales.exe --app:gui c .\\apiMethods\\EnumLanguageGroupLocales\\EnumLanguageGroupLocales.nim",
+            "dll":"nim -d:release --out:EnumLanguageGroupLocales.dll --app:lib c .\\apiMethods\\EnumLanguageGroupLocales\\EnumLanguageGroupLocales.nim",
+            "cpl":"nim -d:release --out:EnumLanguageGroupLocales.cpl --app:lib c .\\apiMethods\\EnumLanguageGroupLocales\\EnumLanguageGroupLocales.nim",
+            "scr":"nim -d:release --out:EnumLanguageGroupLocales.scr --app:gui c .\\apiMethods\\EnumLanguageGroupLocales\\EnumLanguageGroupLocales.nim"
+        },
+        "xll":{
+            "payload":"nim c -d=mingw --app=lib --nomain --cpu=amd64 --out:EnumLanguageGroupLocalesXLL.dll .\\apiMethods\\EnumLanguageGroupLocales\\EnumLanguageGroupLocalesXLL.nim",
+            "cleanup":"move EnumLanguageGroupLocalesXLL.dll EnumLanguageGroupLocales.xll"
+        },
+        "filepaths":{
+            "xll":".\\apiMethods\\EnumLanguageGroupLocales\\EnumLanguageGroupLocalesXLL.nim",
+            "standard":".\\apiMethods\\EnumLanguageGroupLocales\\EnumLanguageGroupLocales.nim"
+        }
+
+    },
+    "cryptenum":{
+        "standard":{
+            "exe":"nim -d:release --out:CryptEnumOIDInfo.exe --app:gui c .\\apiMethods\\CryptEnumOIDInfo\\CryptEnumOIDInfo.nim",
+            "dll":"nim -d:release --out:CryptEnumOIDInfo.dll --app:lib c .\\apiMethods\\CryptEnumOIDInfo\\CryptEnumOIDInfo.nim",
+            "cpl":"nim -d:release --out:CryptEnumOIDInfo.cpl --app:lib c .\\apiMethods\\CryptEnumOIDInfo\\CryptEnumOIDInfo.nim",
+            "scr":"nim -d:release --out:CryptEnumOIDInfo.scr --app:gui c .\\apiMethods\\CryptEnumOIDInfo\\CryptEnumOIDInfo.nim"
+        },
+        "xll":{
+            "payload":"",
+            "cleanup":"" //Wont work
+        },
+        "filepaths":{
+            "xll":"",
+            "standard":".\\apiMethods\\CryptEnumOIDInfo\\CryptEnumOIDInfo.nim"
+        }
+
+    },
+    "enumdisplay":{
+        "standard":{
+            "exe":"nim -d:release --out:EnumDisplayMonitors.exe --app:gui c .\\apiMethods\\EnumDisplayMonitors\\EnumDisplayMonitors.nim",
+            "dll":"nim -d:release --out:EnumDisplayMonitors.dll --app:lib c .\\apiMethods\\EnumDisplayMonitors\\EnumDisplayMonitors.nim",
+            "cpl":"nim -d:release --out:EnumDisplayMonitors.cpl --app:lib c .\\apiMethods\\EnumDisplayMonitors\\EnumDisplayMonitors.nim",
+            "scr":"nim -d:release --out:EnumDisplayMonitors.scr --app:gui c .\\apiMethods\\EnumDisplayMonitors\\EnumDisplayMonitors.nim"
+        },
+        "xll":{
+            "payload":"nim c -d=mingw --app=lib --nomain --cpu=amd64 --out:EnumDisplayMonitorsXLL.dll .\\apiMethods\\EnumDisplayMonitors\\EnumDisplayMonitorsXLL.nim",
+            "cleanup":"move EnumDisplayMonitorsXLL.dll EnumDisplayMonitors.xll"
+        },
+        "filepaths":{
+            "xll":".\\apiMethods\\EnumDisplayMonitors\\EnumDisplayMonitorsXLL.nim",
+            "standard":".\\apiMethods\\EnumDisplayMonitors\\EnumDisplayMonitors.nim"
+        }
+
+    },
+    "enumsystemstore":{
+        "standard":{
+            "exe":"nim -d:release --out:CertEnumSystemStore.exe --app:gui c .\\apiMethods\\CertEnumSystemStore\\CertEnumSystemStore.nim",
+            "dll":"nim -d:release --out:CertEnumSystemStore.dll --app:lib c .\\apiMethods\\CertEnumSystemStore\\CertEnumSystemStore.nim",
+            "cpl":"nim -d:release --out:CertEnumSystemStore.cpl --app:lib c .\\apiMethods\\CertEnumSystemStore\\CertEnumSystemStore.nim",
+            "scr":"nim -d:release --out:CertEnumSystemStore.scr --app:gui c .\\apiMethods\\CertEnumSystemStore\\CertEnumSystemStore.nim"
+        },
+        "xll":{
+            "payload":"nim c -d=mingw --app=lib --nomain --cpu=amd64 --out:CertEnumSystemStoreXLL.dll .\\apiMethods\\CertEnumSystemStore\\CertEnumSystemStoreXLL.nim",
+            "cleanup":"move CertEnumSystemStoreXLL.dll CertEnumSystemStore.xll"
+        },
+        "filepaths":{
+            "xll":".\\apiMethods\\CertEnumSystemStore\\CertEnumSystemStoreXLL.nim",
+            "standard":".\\apiMethods\\CertEnumSystemStore\\CertEnumSystemStore.nim"
+        }
+
+    },
+    "enumdesktop":{
+        "standard":{
+            "exe":"nim -d:release --out:EnumDesktopWindows.exe --app:gui c .\\apiMethods\\EnumDesktopWindows\\EnumDesktopWindows.nim",
+            "dll":"nim -d:release --out:EnumDesktopWindows.dll --app:lib c .\\apiMethods\\EnumDesktopWindows\\EnumDesktopWindows.nim",
+            "cpl":"nim -d:release --out:EnumDesktopWindows.cpl --app:lib c .\\apiMethods\\EnumDesktopWindows\\EnumDesktopWindows.nim",
+            "scr":"nim -d:release --out:EnumDesktopWindows.scr --app:gui c .\\apiMethods\\EnumDesktopWindows\\EnumDesktopWindows.nim"
+        },
+        "xll":{
+            "payload":"nim c -d=mingw --app=lib --nomain --cpu=amd64 --out:EnumDesktopWindowsXLL.dll .\\apiMethods\\EnumDesktopWindows\\EnumDesktopWindowsXLL.nim",
+            "cleanup":"move EnumDesktopWindowsXLL.dll EnumDesktopWindows.xll"
+        },
+        "filepaths":{
+            "xll":".\\apiMethods\\EnumDesktopWindows\\EnumDesktopWindowsXLL.nim",
+            "standard":".\\apiMethods\\EnumDesktopWindows\\EnumDesktopWindows.nim"
+        }
+
+    },
+    "enumtime":{
+        "standard":{
+            "exe":"nim -d:release --out:EnumTimeFormatsEx.exe --app:gui c .\\apiMethods\\EnumTimeFormatsEx\\EnumTimeFormatsEx.nim",
+            "dll":"nim -d:release --out:EnumTimeFormatsEx.dll --app:lib c .\\apiMethods\\EnumTimeFormatsEx\\EnumTimeFormatsEx.nim",
+            "cpl":"nim -d:release --out:EnumTimeFormatsEx.cpl --app:lib c .\\apiMethods\\EnumTimeFormatsEx\\EnumTimeFormatsEx.nim",
+            "scr":"nim -d:release --out:EnumTimeFormatsEx.scr --app:gui c .\\apiMethods\\EnumTimeFormatsEx\\EnumTimeFormatsEx.nim"
+        },
+        "xll":{
+            "payload":"nim c -d=mingw --app=lib --nomain --cpu=amd64 --out:EnumTimeFormatsExXLL.dll .\\apiMethods\\EnumTimeFormatsEx\\EnumTimeFormatsExXLL.nim",
+            "cleanup":"move EnumTimeFormatsExXLL.dll EnumTimeFormatsEx.xll"
+        },
+        "filepaths":{
+            "xll":".\\apiMethods\\EnumTimeFormatsEx\\EnumTimeFormatsExXLL.nim",
+            "standard":".\\apiMethods\\EnumTimeFormatsEx\\EnumTimeFormatsEx.nim"
+        }
+
+    },
+    "enumcalendar":{
+        "standard":{
+            "exe":"nim -d:release --out:EnumCalendarInfo.exe --app:gui c .\\apiMethods\\EnumCalendarInfo\\EnumCalendarInfo.nim",
+            "dll":"nim -d:release --out:EnumCalendarInfo.dll --app:lib c .\\apiMethods\\EnumCalendarInfo\\EnumCalendarInfo.nim",
+            "cpl":"nim -d:release --out:EnumCalendarInfo.cpl --app:lib c .\\apiMethods\\EnumCalendarInfo\\EnumCalendarInfo.nim",
+            "scr":"nim -d:release --out:EnumCalendarInfo.scr --app:gui c .\\apiMethods\\EnumCalendarInfo\\EnumCalendarInfo.nim"
+        },
+        "xll":{
+            "payload":"nim c -d=mingw --app=lib --nomain --cpu=amd64 --out:EnumCalendarInfoXLL.dll .\\apiMethods\\EnumCalendarInfo\\EnumCalendarInfoXLL.nim",
+            "cleanup":"move EnumCalendarInfoXLL.dll EnumCalendarInfo.xll"
+        },
+        "filepaths":{
+            "xll":".\\apiMethods\\EnumCalendarInfo\\EnumCalendarInfoXLL.nim",
+            "standard":".\\apiMethods\\EnumCalendarInfo\\EnumCalendarInfo.nim"
+        }
+
+    }
+    //"":{
+    //    "standard":{
+    //        "exe":"",
+    //        "dll":"",
+    //        "cpl":"",
+    //        "scr":""
+    //    },
+    //    "xll":{
+    //        "payload":"",
+    //        "cleanup":""
+    //    }
+    //    
+    //},
+    }
+}
