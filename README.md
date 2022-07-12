@@ -30,10 +30,10 @@ Run the executable and give it the desired API method, shellcode file, and outpu
 
 
 # Changes
--Added support for all API calls to be used as an XLL
--Added random key for encryption
--Formatting fixes
--Added new API method (EnumCalendarInfo)
+-Added support for all API calls to be used as an XLL <br>
+-Added random key for encryption <br>
+-Formatting fixes <br>
+-Added new API method (EnumCalendarInfo) <br>
 
 # To Do
 -Generation option to directly place the file into a PDF as an attachment </br>
