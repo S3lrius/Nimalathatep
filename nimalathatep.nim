@@ -53,7 +53,7 @@ let banner = """
 echo "\n"
 echo banner
 let helpmenu = """
-Usage: nimalathatep.exe <apiMethod> <binFile> <outfiletype>
+Usage: nimalathatep.exe [-h/h/help] <apiMethod> <binFile> <outfiletype>
 
 Methods currently available:
 EnumGeoID [enumgeoid]
