@@ -11,7 +11,8 @@ Ensure you have NIM downloaded from here: https://nim-lang.org/install.html </br
 Install the winim, ptr_math, and nim crypto prior to compiling with the following commands:</br>
 ```nimble install winim```</br>
 ```nimble install nimcrypto```</br>
-```nimble install ptr_math``` </br></br>
+```nimble install ptr_math``` </br>
+```nimble install sysrandom``` </br>
 To compile: </br>
 ```nim -d:release c .\nimalathatep.nim``` </br>
 </br>
